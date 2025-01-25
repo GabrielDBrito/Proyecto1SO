@@ -10,30 +10,28 @@ package Process;
  * @author Gabriel
  */
 public class Process {
-    private int ID;
+    private Integer ID;
     private String name;
-    private int instructionCount;
+    private Integer instructionCount;
     private boolean CPUbound;
     private boolean IObound;
-    private Integer ciclesToExcept;
-    private String status;  // Cambiado de 'state' a 'status'
+    private Integer cyclesForExcept;
+    private String status;  
+    private Integer PC;  
+    private Integer MAR; 
     
-    // Nuevos atributos
-    private Integer PC;  // Contador de Programa
-    private Integer MAR; // Memoria de Acceso Aleatorio (en mayúsculas)
     
-    // Constructor actualizado
-    public Process(int id, String name, int instructionCount, boolean CPUbound, boolean IObound, 
-                   Integer ciclesToExcept, String status, Integer PC, Integer MAR){
-        this.ID = id;
+    public Process(String name, int instructionCount, boolean CPUbound, boolean IObound, 
+                   Integer cyclesForExcept){
+        this.ID = 0;//revisar
         this.name = name;
         this.instructionCount = instructionCount;
         this.CPUbound = CPUbound;
         this.IObound = IObound;
-        this.ciclesToExcept = ciclesToExcept;
-        this.status = status;  
-        this.PC = PC;  
-        this.MAR = MAR; 
+        this.cyclesForExcept = cyclesForExcept;
+        this.status = "Ready";  
+        this.PC = 0;  //revisar
+        this.MAR = 0; //revisar
     }
     
     public Integer getPC() {
@@ -92,12 +90,12 @@ public class Process {
         this.IObound = IObound;
     }
 
-    public Integer getCiclesToExcept() {
-        return ciclesToExcept;
+    public Integer getCyclesForExcept() {
+        return cyclesForExcept;
     }
 
-    public void setCiclesToExcept(Integer ciclesToExcept) {
-        this.ciclesToExcept = ciclesToExcept;
+    public void setCyclesForExcept(Integer ciclesForExcept) {
+        this.cyclesForExcept = ciclesForExcept;
     }
 
     public String getStatus() {
@@ -106,5 +104,17 @@ public class Process {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    
+    public void printProcessDetails() {
+        System.out.println("Process ID: " + ID);
+        System.out.println("Name: " + name);
+        System.out.println("Instruction Count: " + instructionCount);
+        System.out.println("CPU Bound: " + CPUbound);
+        System.out.println("I/O Bound: " + IObound);
+        System.out.println("Cycles for Exception: " + cyclesForExcept);
+        System.out.println("Status: " + status);
+        System.out.println("Program Counter (PC): " + PC);
+        System.out.println("Memory Address Register (MAR): " + MAR);
     }
 }
