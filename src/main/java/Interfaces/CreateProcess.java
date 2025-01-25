@@ -246,7 +246,6 @@ public class CreateProcess extends javax.swing.JFrame {
         }
         Process newProcess= new Process(name,instructionCount,CPUbound,IObound,cyclesForException);
             readyQueue.enqueue(newProcess);
-            Process asd = (Process) readyQueue.dequeue();
             CPUbound=false;
             IObound=false;
             jToggleButton1.setSelected(false);
@@ -254,9 +253,6 @@ public class CreateProcess extends javax.swing.JFrame {
             name=null;
             instructionCount1=null;
             cyclesForException=null;
-            
-            asd.printProcessDetails();
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
