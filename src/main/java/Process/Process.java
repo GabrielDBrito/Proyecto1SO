@@ -19,10 +19,11 @@ public class Process {
     private String status;  
     private Integer PC;  
     private Integer MAR; 
+    private Integer priority;
     
     
     public Process(String name, int instructionCount, boolean CPUbound, boolean IObound, 
-                   Integer cyclesForExcept){
+                   Integer cyclesForExcept, Integer priority){
         this.ID = 0;//revisar
         this.name = name;
         this.instructionCount = instructionCount;
@@ -32,6 +33,7 @@ public class Process {
         this.status = "Ready";  
         this.PC = 0;  //revisar
         this.MAR = 0; //revisar
+        this.priority=priority;
     }
     
     public Integer getPC() {
@@ -116,5 +118,6 @@ public class Process {
         System.out.println("Status: " + status);
         System.out.println("Program Counter (PC): " + PC);
         System.out.println("Memory Address Register (MAR): " + MAR);
+        System.out.println("Priority: " + priority);
     }
 }
