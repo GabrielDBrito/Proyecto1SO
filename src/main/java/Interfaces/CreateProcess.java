@@ -259,9 +259,12 @@ public class CreateProcess extends javax.swing.JFrame {
             name=null;
             instructionCount1=null;
             cyclesForException=null;
-            Process asd = (Process) readyQueue.peek();
+            /**Test print Process details
+            * 
+            * Process asd = (Process) readyQueue.peek();
             asd.printProcessDetails();
             readyQueue.dequeue();
+            */
             
     }//GEN-LAST:event_jButton1ActionPerformed
 
