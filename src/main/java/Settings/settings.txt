@@ -1,0 +1,2 @@
+instructionDuration=5
+planningAlgorithm=RoundRobin

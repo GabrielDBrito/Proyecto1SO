@@ -15,7 +15,8 @@ public class Process {
     private Integer instructionCount;
     private boolean CPUbound;
     private boolean IObound;
-    private Integer cyclesForExcept;
+    private Integer cyclesToExcept;
+    private Integer cyclesToCompleteRequest;
     private String status;  
     private Integer PC;  
     private Integer MAR; 
@@ -23,13 +24,14 @@ public class Process {
     
     
     public Process(String name, int instructionCount, boolean CPUbound, boolean IObound, 
-                   Integer cyclesForExcept, Integer priority){
+                   Integer cyclesToExcept,Integer cyclesToCompleteRequest, Integer priority){
         this.ID = 0;//revisar
         this.name = name;
         this.instructionCount = instructionCount;
         this.CPUbound = CPUbound;
         this.IObound = IObound;
-        this.cyclesForExcept = cyclesForExcept;
+        this.cyclesToExcept = cyclesToExcept;
+        this.cyclesToCompleteRequest=cyclesToCompleteRequest;
         this.status = "Ready";  
         this.PC = 0;  //revisar
         this.MAR = 0; //revisar
@@ -92,12 +94,20 @@ public class Process {
         this.IObound = IObound;
     }
 
-    public Integer getCyclesForExcept() {
-        return cyclesForExcept;
+    public Integer getCyclesToExcept() {
+        return cyclesToExcept;
     }
 
-    public void setCyclesForExcept(Integer ciclesForExcept) {
-        this.cyclesForExcept = ciclesForExcept;
+    public void setCyclesToExcept(Integer ciclesToExcept) {
+        this.cyclesToExcept = ciclesToExcept;
+    }
+    
+    public Integer getCyclesToCompleteRequest() {
+        return cyclesToCompleteRequest;
+    }
+
+    public void setCyclesToCompleteRequest(Integer cyclesToCompleteRequest) {
+        this.cyclesToCompleteRequest = cyclesToCompleteRequest;
     }
 
     public String getStatus() {
@@ -114,7 +124,8 @@ public class Process {
         System.out.println("Instruction Count: " + instructionCount);
         System.out.println("CPU Bound: " + CPUbound);
         System.out.println("I/O Bound: " + IObound);
-        System.out.println("Cycles for Exception: " + cyclesForExcept);
+        System.out.println("# Cycles for Exception: " + cyclesToExcept);
+        System.out.println("# Cycles to complete the request: " + cyclesToCompleteRequest);
         System.out.println("Status: " + status);
         System.out.println("Program Counter (PC): " + PC);
         System.out.println("Memory Address Register (MAR): " + MAR);
