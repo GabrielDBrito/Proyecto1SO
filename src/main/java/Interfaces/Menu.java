@@ -4,6 +4,7 @@
  */
 package Interfaces;
 import EDD.Queue;
+import Settings.Settings;
 import javax.swing.*;
 
 /**
@@ -12,11 +13,14 @@ import javax.swing.*;
  */
 public class Menu extends javax.swing.JFrame {
     private static Queue readyQueue;
+    private static Settings settings;
     /**
      * Creates new form Menu
      */
-    public Menu(Queue readyQueue) {
+    public Menu(Queue readyQueue, Settings settings) {
         this.readyQueue=readyQueue;
+        this.settings=settings;
+        
         initComponents();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -108,7 +112,7 @@ public class Menu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Menu(readyQueue).setVisible(true);
+                new Menu(readyQueue, settings).setVisible(true);
             }
         });
     }

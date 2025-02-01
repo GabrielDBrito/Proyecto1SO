@@ -342,11 +342,11 @@ public class CreateProcess extends javax.swing.JFrame {
             cyclesToCompleteRequest1=null;
             /**Test print Process details
             * 
-            * */
+            * 
             Process asd = (Process) readyQueue.peek();
             asd.printProcessDetails();
             readyQueue.dequeue();
-            
+            */
             
     }//GEN-LAST:event_jButton1ActionPerformed
 
