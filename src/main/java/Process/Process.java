@@ -1,5 +1,7 @@
 package Process;
 
+import java.util.concurrent.Semaphore;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -9,9 +11,9 @@ package Process;
  *
  * @author Gabriel
  */
-public class Process {
+public class Process extends Thread {
     private Integer ID;
-    private String name;
+    private String processName;
     private Integer instructionCount;
     private boolean CPUbound;
     private boolean IObound;
@@ -21,12 +23,14 @@ public class Process {
     private Integer PC;  
     private Integer MAR; 
     private Integer priority;
+    private Semaphore mutex;
+   
     
     
-    public Process(String name, int instructionCount, boolean CPUbound, boolean IObound, 
+    public Process(String processName, int instructionCount, boolean CPUbound, boolean IObound, 
                    Integer cyclesToExcept,Integer cyclesToCompleteRequest, Integer priority){
         this.ID = 0;//revisar
-        this.name = name;
+        this.processName = processName;
         this.instructionCount = instructionCount;
         this.CPUbound = CPUbound;
         this.IObound = IObound;
@@ -62,13 +66,15 @@ public class Process {
         this.ID = ID;
     }
 
-    public String getName() {
-        return name;
+    public String getprocessName() {
+        return processName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setprocessName(String processName) {
+        this.processName = processName;
     }
+
+    
 
     public int getInstructionCount() {
         return instructionCount;
@@ -117,10 +123,16 @@ public class Process {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public void setMutex(Semaphore mutex) {
+        this.mutex = mutex;
+    }
+    
+    
     
     public void printProcessDetails() {
         System.out.println("Process ID: " + ID);
-        System.out.println("Name: " + name);
+        System.out.println("Name: " + processName);
         System.out.println("Instruction Count: " + instructionCount);
         System.out.println("CPU Bound: " + CPUbound);
         System.out.println("I/O Bound: " + IObound);
