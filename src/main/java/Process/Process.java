@@ -133,7 +133,8 @@ public class Process extends Thread {
     public int getArrivalTime() {
         return arrivalTime;
     }
-        
+
+      
     
     
     public void printProcessDetails() {
@@ -150,3 +151,26 @@ public class Process extends Thread {
         System.out.println("Priority: " + priority);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
