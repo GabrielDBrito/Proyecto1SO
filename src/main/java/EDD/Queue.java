@@ -72,4 +72,32 @@ public class Queue<T> {
         }
         return front.data;
     }
+    
+    public Node<T>[] getAllNodes() {
+        Node<T>[] array = (Node<T>[]) new Node[size]; // nodes array
+        Node<T> current = front;
+        int index = 0;
+
+        while (current != null) {
+            array[index++] = current;
+            current = current.next;
+        }
+        return array;
+    }
+    
+    /*How to use getAllNodes
+    
+    Queue<Process> processQueue = new Queue<>();
+    processQueue.enqueue(new Process("P1", 5));
+    processQueue.enqueue(new Process("P2", 10));
+
+    Node<Process>[] nodes = processQueue.getAllNodes();
+    for (Node<Process> node : nodes) {
+    Integer id = node.data.getId(); 
+    System.out.println("Process ID: " + id);
+    }
+    
+    */
+    
+    
 }
