@@ -2,6 +2,7 @@ Interfaces\CreateProcess$5.class
 com\mycompany\proyecto1so\Main.class
 Process\Process.class
 EDD\Queue.class
+Scheduler\RoundRobin.class
 Interfaces\Menu$3.class
 Interfaces\Menu$1.class
 Interfaces\CreateProcess$3.class

@@ -19,6 +19,7 @@ public class CreateProcess extends javax.swing.JFrame {
     private boolean CPUbound;
     private boolean IObound;
     private static Queue readyQueue;
+    private int arrivalTimeCounter=0;
     /**
      * Creates new form CreateProcess
      */
@@ -279,6 +280,8 @@ public class CreateProcess extends javax.swing.JFrame {
         String cyclesToCompleteRequest1 = jTextField4.getText(); 
         String selectedOption = (String) jComboBox1.getSelectedItem();
         Integer selectedInteger = Integer.parseInt(selectedOption);
+         // Automatically assign arrival time based on the counter
+        int arrivalTime = arrivalTimeCounter++;
 
         if (name == null || name.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Process name cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -324,7 +327,7 @@ public class CreateProcess extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "You must select 'CPU bound' or 'I/O bound'.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-            Process newProcess= new Process(name,instructionCount,CPUbound,IObound,cyclesForException,cyclesToCompleteRequest,selectedInteger);
+            Process newProcess= new Process(name,instructionCount,CPUbound,IObound,cyclesForException,cyclesToCompleteRequest,selectedInteger, arrivalTime);
             readyQueue.enqueue(newProcess);
             
             // Reset values

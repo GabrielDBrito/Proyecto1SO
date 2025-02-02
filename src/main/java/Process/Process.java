@@ -24,11 +24,12 @@ public class Process extends Thread {
     private Integer MAR; 
     private Integer priority;
     private Semaphore mutex;
+    private int arrivalTime; 
    
     
     
     public Process(String processName, int instructionCount, boolean CPUbound, boolean IObound, 
-                   Integer cyclesToExcept,Integer cyclesToCompleteRequest, Integer priority){
+                   Integer cyclesToExcept,Integer cyclesToCompleteRequest, Integer priority, int arrivalTime){
         this.ID = 0;//revisar
         this.processName = processName;
         this.instructionCount = instructionCount;
@@ -40,6 +41,7 @@ public class Process extends Thread {
         this.PC = 0;  //revisar
         this.MAR = 0; //revisar
         this.priority=priority;
+        this.arrivalTime = arrivalTime; //Para planificacion HRRN
     }
     
     public Integer getPC() {
@@ -127,7 +129,11 @@ public class Process extends Thread {
     public void setMutex(Semaphore mutex) {
         this.mutex = mutex;
     }
-    
+
+    public int getArrivalTime() {
+        return arrivalTime;
+    }
+        
     
     
     public void printProcessDetails() {
