@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Interfaces;
+import CPU.CPU;
+import EDD.ProcessList;
 import EDD.Queue;
 import Settings.Settings;
 import javax.swing.*;
@@ -13,13 +15,19 @@ import javax.swing.*;
  */
 public class Menu extends javax.swing.JFrame {
     private static Queue readyQueue;
+    private static Queue blockQueue;
+    private static ProcessList exitList;
     private static Settings settings;
+    private static CPU[] cpus;
     /**
      * Creates new form Menu
      */
-    public Menu(Queue readyQueue, Settings settings) {
+    public Menu(Queue readyQueue,Queue blockQueue,ProcessList exitList, Settings settings, CPU[] cpus) {
         this.readyQueue=readyQueue;
+        this.blockQueue=blockQueue;
+        this.exitList=exitList;
         this.settings=settings;
+        this.cpus=cpus;
         
         initComponents();
         setLocationRelativeTo(null);
@@ -112,7 +120,7 @@ public class Menu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Menu(readyQueue, settings).setVisible(true);
+                new Menu(readyQueue, blockQueue, exitList, settings,cpus).setVisible(true);
             }
         });
     }
