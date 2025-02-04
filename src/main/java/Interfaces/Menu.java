@@ -15,16 +15,16 @@ import javax.swing.*;
  */
 public class Menu extends javax.swing.JFrame {
     private static Queue readyQueue;
-    private static Queue blockQueue;
+    private static Queue blockedQueue;
     private static ProcessList exitList;
     private static Settings settings;
     private static CPU[] cpus;
     /**
      * Creates new form Menu
      */
-    public Menu(Queue readyQueue,Queue blockQueue,ProcessList exitList, Settings settings, CPU[] cpus) {
+    public Menu(Queue readyQueue,Queue blockedQueue,ProcessList exitList, Settings settings, CPU[] cpus) {
         this.readyQueue=readyQueue;
-        this.blockQueue=blockQueue;
+        this.blockedQueue=blockedQueue;
         this.exitList=exitList;
         this.settings=settings;
         this.cpus=cpus;
@@ -45,17 +45,24 @@ public class Menu extends javax.swing.JFrame {
 
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
-        setPreferredSize(new java.awt.Dimension(750, 445));
 
         jButton2.setText("Create process");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Execution Window");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
             }
         });
 
@@ -65,15 +72,19 @@ public class Menu extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(320, 320, 320)
-                .addComponent(jButton2)
-                .addContainerGap(319, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(297, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(129, 129, 129)
                 .addComponent(jButton2)
-                .addContainerGap(289, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton3)
+                .addContainerGap(244, Short.MAX_VALUE))
         );
 
         pack();
@@ -89,6 +100,12 @@ public class Menu extends javax.swing.JFrame {
         });
          
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // Simulation GUI
+        ExecutionWindow executionWindow = new ExecutionWindow(readyQueue, blockedQueue, exitList, cpus);
+        executionWindow.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -120,7 +137,7 @@ public class Menu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Menu(readyQueue, blockQueue, exitList, settings,cpus).setVisible(true);
+                new Menu(readyQueue, blockedQueue, exitList, settings,cpus).setVisible(true);
             }
         });
     }
@@ -128,5 +145,6 @@ public class Menu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     // End of variables declaration//GEN-END:variables
 }

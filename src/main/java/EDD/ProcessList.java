@@ -3,11 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package EDD;
-
+import Process.Process;
 /**
  *
  * @author Gabriel
  */
+
+
 public class ProcessList {
     
     private static class Node {
@@ -92,5 +94,16 @@ public class ProcessList {
             System.out.println(current.data);
             current = current.next;
         }
+    }
+    
+    public Process[] getAllProcesses() {
+        Process[] processes = new Process[size];
+        Node current = head;
+        int index = 0;
+        while (current != null) {
+            processes[index++] = current.data;
+            current = current.next;
+        }
+        return processes;
     }
 }

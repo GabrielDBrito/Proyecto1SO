@@ -326,7 +326,7 @@ public class CreateProcess extends javax.swing.JFrame {
         }
             Process newProcess= new Process(name,instructionCount,CPUbound,IObound,cyclesForException,cyclesToCompleteRequest,selectedInteger);
             readyQueue.enqueue(newProcess);
-            
+
             // Reset values
             CPUbound = false;
             IObound = false;

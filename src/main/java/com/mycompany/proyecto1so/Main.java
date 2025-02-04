@@ -57,12 +57,12 @@ public class Main {
         Settings settings = new Settings(numberOfCPUs, instructionDuration, planningAlgorithm);
         
         Queue<Process> readyQueue = new Queue<>();
-        Queue<Process> blockQueue = new Queue<>();
+        Queue<Process> blockedQueue = new Queue<>();
         ProcessList exitList= new ProcessList(); // culminated processes
         
 
         java.awt.EventQueue.invokeLater(() -> {
-            new Menu(readyQueue,blockQueue,exitList,settings,cpus).setVisible(true);
+            new Menu(readyQueue,blockedQueue,exitList,settings,cpus).setVisible(true);
         });
     }
 }
