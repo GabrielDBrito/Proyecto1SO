@@ -19,6 +19,7 @@ public class Menu extends javax.swing.JFrame {
     private static ProcessList exitList;
     private static Settings settings;
     private static CPU[] cpus;
+    private ExecutionWindow executionWindow;
     /**
      * Creates new form Menu
      */
@@ -28,6 +29,7 @@ public class Menu extends javax.swing.JFrame {
         this.exitList=exitList;
         this.settings=settings;
         this.cpus=cpus;
+        this.executionWindow=null;
         
         initComponents();
         setLocationRelativeTo(null);
@@ -94,7 +96,7 @@ public class Menu extends javax.swing.JFrame {
         // create process
         java.awt.EventQueue.invokeLater(new Runnable() {
         public void run() {
-            CreateProcess frame = new CreateProcess(readyQueue);
+            CreateProcess frame = new CreateProcess(readyQueue,executionWindow);
             frame.setVisible(true);
             }   
         });
@@ -103,7 +105,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // Simulation GUI
-        ExecutionWindow executionWindow = new ExecutionWindow(readyQueue, blockedQueue, exitList, cpus);
+        executionWindow = new ExecutionWindow(readyQueue, blockedQueue, exitList, cpus);
         executionWindow.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 

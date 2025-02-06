@@ -19,11 +19,13 @@ public class CreateProcess extends javax.swing.JFrame {
     private boolean CPUbound;
     private boolean IObound;
     private static Queue readyQueue;
+    private static ExecutionWindow executionWindow;
     /**
      * Creates new form CreateProcess
      */
-    public CreateProcess(Queue readyQueue) {
+    public CreateProcess(Queue readyQueue, ExecutionWindow executionWindow) {
         this.readyQueue=readyQueue;
+        this.executionWindow=executionWindow;
         initComponents();
         setLocationRelativeTo(null); // Centra la ventana en la pantalla
     }
@@ -326,7 +328,10 @@ public class CreateProcess extends javax.swing.JFrame {
         }
             Process newProcess= new Process(name,instructionCount,CPUbound,IObound,cyclesForException,cyclesToCompleteRequest,selectedInteger);
             readyQueue.enqueue(newProcess);
-
+            if(executionWindow!=null){
+                executionWindow.updateWindow();//update executionwindow
+            }
+            
             // Reset values
             CPUbound = false;
             IObound = false;
@@ -392,7 +397,7 @@ public class CreateProcess extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CreateProcess(readyQueue).setVisible(true);
+                new CreateProcess(readyQueue,executionWindow).setVisible(true);
             }
         });
     }

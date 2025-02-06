@@ -24,7 +24,6 @@ public class ExecutionWindow extends JFrame {
 
     private JScrollPane readyQueuePanel, blockedQueuePanel, completedProcessesPanel;
 
-    
     private static final Color COLOR_PRIMARY = new Color(48, 63, 159); // dark blue
     private static final Color COLOR_SECONDARY = new Color(255, 87, 34); // orange
     private static final Color COLOR_BACKGROUND = new Color(245, 245, 245); // light gray
@@ -175,6 +174,10 @@ public class ExecutionWindow extends JFrame {
         panel.add(nameLabel);
         panel.add(pcLabel);
         panel.add(marLabel);
+        
+        // limiting height
+        panel.setPreferredSize(new Dimension(panel.getPreferredSize().width, 55)); 
+        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60)); 
 
         return panel;
     }
