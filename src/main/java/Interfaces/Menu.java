@@ -96,7 +96,7 @@ public class Menu extends javax.swing.JFrame {
         // create process
         java.awt.EventQueue.invokeLater(new Runnable() {
         public void run() {
-            CreateProcess frame = new CreateProcess(readyQueue,executionWindow);
+            CreateProcess frame = new CreateProcess(readyQueue,executionWindow,cpus);
             frame.setVisible(true);
             }   
         });

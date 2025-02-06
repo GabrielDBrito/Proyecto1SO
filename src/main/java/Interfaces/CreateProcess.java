@@ -4,6 +4,8 @@
  */
 package Interfaces;
 
+import CPU.CPU;
+import EDD.ProcessList;
 import EDD.Queue;
 import javax.swing.JOptionPane;
 import Process.Process;
@@ -20,12 +22,16 @@ public class CreateProcess extends javax.swing.JFrame {
     private boolean IObound;
     private static Queue readyQueue;
     private static ExecutionWindow executionWindow;
+    private static CPU[] cpus;
+
     /**
      * Creates new form CreateProcess
      */
-    public CreateProcess(Queue readyQueue, ExecutionWindow executionWindow) {
+    public CreateProcess(Queue readyQueue, ExecutionWindow executionWindow, CPU[] cpus) {
         this.readyQueue=readyQueue;
         this.executionWindow=executionWindow;
+        this.cpus=cpus;
+
         initComponents();
         setLocationRelativeTo(null); // Centra la ventana en la pantalla
     }
@@ -397,7 +403,7 @@ public class CreateProcess extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CreateProcess(readyQueue,executionWindow).setVisible(true);
+                new CreateProcess(readyQueue,executionWindow,cpus).setVisible(true);
             }
         });
     }

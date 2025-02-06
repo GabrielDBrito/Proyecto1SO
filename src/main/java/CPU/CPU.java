@@ -3,7 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package CPU;
-
+import EDD.ProcessList;
+import EDD.Queue;
+import Process.Process;
 /**
  *
  * @author Gabriel
@@ -14,6 +16,7 @@ public class CPU {
     private String runningProcess;
     private Integer PC;
     private Integer MAR;
+    private Process process;
     
     public CPU(Integer ID) {
         this.ID = ID;
@@ -53,5 +56,35 @@ public class CPU {
     public void setMAR(Integer MAR) {
         this.MAR = MAR;
     }
-       
+    
+    public Process getProcess() {
+        return process;
+    }
+
+    public void setProcess(Process process) {
+        this.process = process;
+    }
+    
+    public void run(Process process){
+        setProcess(process);
+        setRunningProcess("P"+process.getID());
+        setPC(process.getPC());
+        setMAR(process.getMAR());
+    }
+    
+    public void block(Queue blockQueue){
+        Process process=getProcess();
+        setRunningProcess("OS");
+        setPC(0);
+        setMAR(0);
+        blockQueue.enqueue(process);  
+    }
+    
+    public void terminate(ProcessList exitList){
+        Process process=getProcess();
+        setRunningProcess("OS");
+        setPC(0);
+        setMAR(0);
+        exitList.add(process); 
+    }
 }

@@ -21,7 +21,7 @@ public class ExecutionWindow extends JFrame {
     private Queue<Process> blockedQueue;
     private ProcessList exitList;
     private CPU[] cpus;
-
+    private JPanel cpuPanel; 
     private JScrollPane readyQueuePanel, blockedQueuePanel, completedProcessesPanel;
 
     private static final Color COLOR_PRIMARY = new Color(48, 63, 159); // dark blue
@@ -44,13 +44,15 @@ public class ExecutionWindow extends JFrame {
         getContentPane().setBackground(COLOR_BACKGROUND);
 
        
-        JPanel cpuPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
+        cpuPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
         cpuPanel.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(COLOR_PRIMARY, 2), "CPUs"));
+        BorderFactory.createLineBorder(COLOR_PRIMARY, 2), "CPUs"));
         cpuPanel.setBackground(COLOR_BACKGROUND);
+
         for (CPU cpu : cpus) {
             cpuPanel.add(createCPUInfoPanel(cpu));
         }
+
         add(cpuPanel, BorderLayout.NORTH);
 
         // Queue panels with scrollbars
@@ -127,6 +129,7 @@ public class ExecutionWindow extends JFrame {
         readyPanel.removeAll();
         blockedPanel.removeAll();
         completedPanel.removeAll();
+        cpuPanel.removeAll();
 
         // adding process to queues
         for (Node<Process> node : readyQueue.getAllNodes()) {
@@ -140,6 +143,11 @@ public class ExecutionWindow extends JFrame {
         for (Process process : exitList.getAllProcesses()) {
             completedPanel.add(createProcessInfoPanel(process));
         }
+        
+        //update cpu data
+        for (CPU cpu : cpus) {
+            cpuPanel.add(createCPUInfoPanel(cpu));
+        }     
 
         // refresh
         revalidate();
