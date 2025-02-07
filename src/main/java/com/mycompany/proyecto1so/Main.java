@@ -55,7 +55,7 @@ public class Main {
         }
         
         Settings settings = new Settings(numberOfCPUs, instructionDuration, planningAlgorithm);
-        
+        System.out.println(settings.getCPUs());
         Queue<Process> readyQueue = new Queue<>();
         Queue<Process> blockedQueue = new Queue<>();
         ProcessList exitList= new ProcessList(); // culminated processes

@@ -33,7 +33,7 @@ public class CreateProcess extends javax.swing.JFrame {
         this.cpus=cpus;
 
         initComponents();
-        setLocationRelativeTo(null); // Centra la ventana en la pantalla
+        setLocationRelativeTo(null); // Centering the window
     }
 
     /**
@@ -65,7 +65,6 @@ public class CreateProcess extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(204, 0, 102));
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {

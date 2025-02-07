@@ -38,7 +38,7 @@ public class ExecutionWindow extends JFrame {
 
         setTitle("Execution Window");
         setSize(1200, 900);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
         getContentPane().setBackground(COLOR_BACKGROUND);
