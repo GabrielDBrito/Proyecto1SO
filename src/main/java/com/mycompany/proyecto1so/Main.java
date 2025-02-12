@@ -4,10 +4,13 @@
 
 package com.mycompany.proyecto1so;
 import CPU.CPU;
+import Clock.ClockManager;
 import EDD.ProcessList;
 import EDD.Queue;
 import Interfaces.Menu;
 import Process.Process;
+import Scheduler.FCFS;
+import Scheduler.Scheduler;
 import javax.swing.JOptionPane;
 import Settings.Settings;
 import java.io.FileReader;
@@ -19,6 +22,39 @@ import java.util.Properties;
  */
 public class Main {
     public static void main(String[] args) {
+        
+        int instructionDuration = 0; 
+        String planningAlgorithm = null;
+        try (FileReader reader = new FileReader("src/main/java/Settings/settings.txt")) {
+            Properties properties = new Properties();
+            properties.load(reader);
+
+            instructionDuration = Integer.parseInt(properties.getProperty("instructionDuration")); //in seconds
+            planningAlgorithm = properties.getProperty("planningAlgorithm");
+
+        } catch (IOException | NumberFormatException e) {
+            System.out.println("Error reading settings file: " + e.getMessage());
+        }
+        
+        Queue<Process> readyQueue = new Queue<>();
+        Queue<Process> blockedQueue = new Queue<>();
+        ProcessList exitList= new ProcessList(); // culminated processes
+        
+        FCFS algorithm =null;
+        //Scheduling Algorithm
+        if("FCFS".equals(planningAlgorithm)){
+            algorithm =new FCFS(readyQueue);
+        }
+        if("Round Robin".equals(planningAlgorithm)){
+            
+        }
+        if("SPN".equals(planningAlgorithm)){
+        }
+        if("SRT".equals(planningAlgorithm)){
+        }
+        if("HRRN".equals(planningAlgorithm)){
+        }
+        Scheduler scheduler=new Scheduler(algorithm,readyQueue);
         
         String[] options = {"2 CPUs", "3 CPUs"};
         int choice = JOptionPane.showOptionDialog(
@@ -39,29 +75,11 @@ public class Main {
         for (int i = 0; i < numberOfCPUs; i++) {
             cpus[i] = new CPU(i + 1); 
         }
+        ClockManager clockManager = new ClockManager(instructionDuration); //clockCycles
+        Settings settings = new Settings(numberOfCPUs, instructionDuration, planningAlgorithm, clockManager);
         
-        int instructionDuration = 0;
-        String planningAlgorithm = null;
-
-        try (FileReader reader = new FileReader("src/main/java/Settings/settings.txt")) {
-            Properties properties = new Properties();
-            properties.load(reader);
-
-            instructionDuration = Integer.parseInt(properties.getProperty("instructionDuration"));
-            planningAlgorithm = properties.getProperty("planningAlgorithm");
-
-        } catch (IOException | NumberFormatException e) {
-            System.out.println("Error reading settings file: " + e.getMessage());
-        }
-        System.out.println(planningAlgorithm);
-        Settings settings = new Settings(numberOfCPUs, instructionDuration, planningAlgorithm);
-        Queue<Process> readyQueue = new Queue<>();
-        Queue<Process> blockedQueue = new Queue<>();
-        ProcessList exitList= new ProcessList(); // culminated processes
-        
-
         java.awt.EventQueue.invokeLater(() -> {
-            new Menu(readyQueue,blockedQueue,exitList,settings,cpus).setVisible(true);
+            new Menu(readyQueue,blockedQueue,exitList,settings,cpus,scheduler,clockManager).setVisible(true);
         });
     }
 }

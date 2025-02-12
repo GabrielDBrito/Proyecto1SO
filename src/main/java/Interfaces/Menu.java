@@ -4,10 +4,12 @@
  */
 package Interfaces;
 import CPU.CPU;
+import Clock.ClockManager;
 import EDD.ProcessList;
 import EDD.Queue;
 import Settings.Settings;
 import javax.swing.*;
+import Scheduler.Scheduler;
 
 /**
  *
@@ -22,18 +24,23 @@ public class Menu extends javax.swing.JFrame {
     private ExecutionWindow executionWindow;
     private CreateProcess createProcess;
     private SettingsGUI settingsGUI;
+    private static Scheduler scheduler;
+    private static ClockManager clockManager;
+    
     /**
      * Creates new form Menu
      */
-    public Menu(Queue readyQueue,Queue blockedQueue,ProcessList exitList, Settings settings, CPU[] cpus) {
+    public Menu(Queue readyQueue,Queue blockedQueue,ProcessList exitList, Settings settings, CPU[] cpus, Scheduler scheduler, ClockManager clockManager) {
         this.readyQueue=readyQueue;
         this.blockedQueue=blockedQueue;
         this.exitList=exitList;
         this.settings=settings;
         this.cpus=cpus;
+        this.scheduler=scheduler;
+        this.clockManager=clockManager;
         
         // Ocult executionWindow
-        this.executionWindow = new ExecutionWindow(readyQueue, blockedQueue, exitList, cpus);
+        this.executionWindow = new ExecutionWindow(readyQueue, blockedQueue, exitList, cpus, settings, clockManager);
         executionWindow.setVisible(false);
         this.createProcess=new CreateProcess(readyQueue, executionWindow, cpus);
         createProcess.setVisible(false);
@@ -157,7 +164,7 @@ public class Menu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Menu(readyQueue, blockedQueue, exitList, settings,cpus).setVisible(true);
+                new Menu(readyQueue, blockedQueue, exitList, settings,cpus,scheduler, clockManager).setVisible(true);
             }
         });
     }

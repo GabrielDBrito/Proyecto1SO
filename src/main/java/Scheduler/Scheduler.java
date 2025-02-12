@@ -6,6 +6,7 @@ package Scheduler;
 
 import CPU.CPU;
 import EDD.Queue;
+import Process.Process;
 
 /**
  *
@@ -27,6 +28,8 @@ public class Scheduler {
     }
 
     public void dispatch(CPU cpu){
-        algorithm.dispatch(cpu);
+        reorder();
+        Process process =readyQueue.dequeue();
+        cpu.run(process);
     }
 }

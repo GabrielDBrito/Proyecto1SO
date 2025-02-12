@@ -6,6 +6,7 @@ package Scheduler;
 
 import CPU.CPU;
 import EDD.Queue;
+import Process.Process;
 
 /**
  *
@@ -13,6 +14,20 @@ import EDD.Queue;
  */
 public class FCFS implements SchedulingAlgorithm{
     private Queue readyQueue;
+
+    public FCFS(Queue readyQueue) {
+        this.readyQueue=readyQueue;
+    }
+
+    @Override
+    public void reorder() {
+        //do nothing 
+    }
+
+    @Override
+    public void dispatch(CPU cpu) {
+        cpu.run((Process) readyQueue.dequeue());
+    } 
     
     public Queue getReadyQueue() {
         return readyQueue;
@@ -21,19 +36,4 @@ public class FCFS implements SchedulingAlgorithm{
     public void setReadyQueue(Queue readyQueue) {
         this.readyQueue = readyQueue;
     }
-
-    public FCFS(Queue readyQueue) {
-        this.readyQueue=readyQueue;
-    }
-
-    @Override
-    public void reorder() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void dispatch(CPU cpu) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
 }

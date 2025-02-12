@@ -6,6 +6,7 @@ package CPU;
 import EDD.ProcessList;
 import EDD.Queue;
 import Process.Process;
+import Scheduler.Scheduler;
 /**
  *
  * @author Gabriel
@@ -17,6 +18,7 @@ public class CPU {
     private Integer PC;
     private Integer MAR;
     private Process process;
+    private Scheduler scheduler;
     
     public CPU(Integer ID) {
         this.ID = ID;
@@ -74,17 +76,18 @@ public class CPU {
     
     public void block(Queue blockQueue){
         Process process=getProcess();
-        setRunningProcess("OS");
-        setPC(0);
-        setMAR(0);
         blockQueue.enqueue(process);  
+        runningOS();
     }
     
     public void terminate(ProcessList exitList){
         Process process=getProcess();
+        exitList.add(process); 
+        runningOS();
+    }
+    public void runningOS(){
         setRunningProcess("OS");
         setPC(0);
         setMAR(0);
-        exitList.add(process); 
     }
 }
