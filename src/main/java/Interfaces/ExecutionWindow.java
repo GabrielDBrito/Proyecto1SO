@@ -29,7 +29,7 @@ public class ExecutionWindow extends JFrame {
     private JPanel cpuPanel, infoPanel; 
     private JScrollPane readyQueuePanel, blockedQueuePanel, completedProcessesPanel;
     private Settings settings;
-    private int cycles;
+    private double cycles;
     private String planningAlgorithm;
     private JLabel cyclesLabel, planningAlgorithmLabel;
     private ClockManager clockManager;
@@ -60,7 +60,7 @@ public class ExecutionWindow extends JFrame {
         setLayout(new BorderLayout(10, 10));
         getContentPane().setBackground(COLOR_BACKGROUND);
 
-        // Panel superior con cycles y planningAlgorithm
+        // Panel cycles & planningAlgorithm
         infoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 5));
         infoPanel.setBackground(COLOR_BACKGROUND);
         infoPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, COLOR_PRIMARY));
@@ -89,7 +89,7 @@ public class ExecutionWindow extends JFrame {
 
         add(cpuPanel, BorderLayout.CENTER);
 
-        // Paneles de colas
+        // queue panels
         JPanel queuePanel = new JPanel(new GridLayout(1, 3, 10, 10));
         queuePanel.setBackground(COLOR_BACKGROUND);
 
@@ -108,7 +108,7 @@ public class ExecutionWindow extends JFrame {
         setVisible(true);
     }
 
-    // Método para crear paneles con barra de desplazamiento
+    // scrollbarPanels 
     private JScrollPane createScrollablePanel(String title) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -117,11 +117,11 @@ public class ExecutionWindow extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane(panel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setPreferredSize(new Dimension(250, 250));
+        scrollPane.setPreferredSize(new Dimension(250, 650));
         return scrollPane;
     }
 
-    // Método para crear panel de cada CPU
+    // each CPU panel
     private JPanel createCPUInfoPanel(CPU cpu) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -150,7 +150,6 @@ public class ExecutionWindow extends JFrame {
         return panel;
     }
 
-    // Método para actualizar la ventana
     public void updateWindow() {
         cyclesLabel.setText("Instruction cycles: " + clockManager.getClockCycles());
         planningAlgorithmLabel.setText("Planning algorithm: " + settings.getPlanningAlgorithm());
@@ -184,28 +183,17 @@ public class ExecutionWindow extends JFrame {
         repaint();
     }
 
-    // Método para iniciar la actualización automática
     private void startAutoUpdate() {
         scheduler = Executors.newSingleThreadScheduledExecutor();
         restartAutoUpdate();
     }
 
-    // Método para reiniciar el temporizador cuando cycles cambia
     private void restartAutoUpdate() {
         if (scheduler != null) {
             scheduler.shutdown();
         }
-
         scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate(this::updateWindow, 0, cycles, TimeUnit.SECONDS);
-    }
-
-    // Método para actualizar la frecuencia de actualización
-    public void updateCycles(int newCycles) {
-        if (newCycles != cycles) {
-            this.cycles = newCycles;
-            restartAutoUpdate();
-        }
+        scheduler.scheduleAtFixedRate(this::updateWindow, 0, 100, TimeUnit.MILLISECONDS);
     }
 
     // Process panel
@@ -239,7 +227,7 @@ public class ExecutionWindow extends JFrame {
         
         // limiting height
         panel.setPreferredSize(new Dimension(panel.getPreferredSize().width, 55)); 
-        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60)); 
+        //panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60)); 
 
         return panel;
     }

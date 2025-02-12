@@ -23,13 +23,13 @@ import java.util.Properties;
 public class Main {
     public static void main(String[] args) {
         
-        int instructionDuration = 0; 
+        double instructionDuration = 0; 
         String planningAlgorithm = null;
         try (FileReader reader = new FileReader("src/main/java/Settings/settings.txt")) {
             Properties properties = new Properties();
             properties.load(reader);
 
-            instructionDuration = Integer.parseInt(properties.getProperty("instructionDuration")); //in seconds
+            instructionDuration = Double.parseDouble(properties.getProperty("instructionDuration")); //in seconds
             planningAlgorithm = properties.getProperty("planningAlgorithm");
 
         } catch (IOException | NumberFormatException e) {

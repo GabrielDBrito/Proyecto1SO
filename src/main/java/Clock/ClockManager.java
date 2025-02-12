@@ -10,49 +10,53 @@ import java.util.concurrent.TimeUnit;
 
 public class ClockManager {
     private int clockCycles = 0;
-    private int instructionDuration;
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private double instructionDuration;
+    private ScheduledExecutorService scheduler;
     private Runnable clockTask;
 
-    public ClockManager(int instructionDuration) {
+    public ClockManager(double instructionDuration) {
         this.instructionDuration = instructionDuration;
         startClock();
     }
 
     private void startClock() {
+        scheduler = Executors.newScheduledThreadPool(1);
         clockTask = () -> {
-            clockCycles++;
-            System.out.println("Clock Cycle: " + clockCycles);
+            synchronized (this) { // Synchronization to avoid problems in multiple threads
+                clockCycles++;
+                //System.out.println("Clock Cycle: " + clockCycles);
+            }
         };
 
-        scheduler.scheduleAtFixedRate(clockTask, 0, instructionDuration, TimeUnit.SECONDS);
+        long initialDelay = 0;
+        long period = (long) (instructionDuration * 1000); // s to ms
+
+        scheduler.scheduleAtFixedRate(clockTask, initialDelay, period, TimeUnit.MILLISECONDS);
     }
 
-    public void updateInstructionDuration(int newDuration) {
-        if (newDuration == instructionDuration) return; // No changes
+    public synchronized void updateInstructionDuration(double newDuration) {
+        if (newDuration == instructionDuration) return;
 
         this.instructionDuration = newDuration;
         restartClockWithNewRate();
     }
 
-    private void restartClockWithNewRate() {
-        scheduler.shutdown(); // Stop current execution without restarting clockCycles
-
-        
-        try {
-            if (!scheduler.awaitTermination(300, TimeUnit.MILLISECONDS)) {
-                scheduler.shutdownNow(); // 
+    private synchronized void restartClockWithNewRate() {
+        if (scheduler != null && !scheduler.isShutdown()) {
+            scheduler.shutdown();
+            try {
+                if (!scheduler.awaitTermination(500, TimeUnit.MILLISECONDS)) {
+                    scheduler.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
         }
 
-        // new clockScheduler with new instructionDuration
-        ScheduledExecutorService newScheduler = Executors.newScheduledThreadPool(1);
-        newScheduler.scheduleAtFixedRate(clockTask, 0, instructionDuration, TimeUnit.SECONDS);
+        startClock(); // new time interval 
     }
 
-    public int getClockCycles() {
+    public synchronized int getClockCycles() {
         return clockCycles;
     }
 }

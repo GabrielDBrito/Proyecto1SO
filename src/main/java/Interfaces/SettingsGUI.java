@@ -154,14 +154,14 @@ public class SettingsGUI extends javax.swing.JFrame {
         
         String ExecutionTime1=jTextField1.getText();    //executioncycle
         String PlanningAlgorithm1 = (String) jComboBox1.getSelectedItem();
-        int executionTime; 
+        double executionTime; 
     
         try {
             
-            executionTime = Integer.parseInt(ExecutionTime1);
+            executionTime = Double.parseDouble(ExecutionTime1);
         } catch (NumberFormatException e) {
             
-            JOptionPane.showMessageDialog(this, "Error: Execution cycle must be an integer.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error: Execution cycle must be a number.", "Input Error", JOptionPane.ERROR_MESSAGE);
             return; 
         }
 
