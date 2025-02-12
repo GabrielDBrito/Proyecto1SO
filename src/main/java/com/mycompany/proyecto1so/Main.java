@@ -53,7 +53,7 @@ public class Main {
         } catch (IOException | NumberFormatException e) {
             System.out.println("Error reading settings file: " + e.getMessage());
         }
-        
+        System.out.println(planningAlgorithm);
         Settings settings = new Settings(numberOfCPUs, instructionDuration, planningAlgorithm);
         Queue<Process> readyQueue = new Queue<>();
         Queue<Process> blockedQueue = new Queue<>();

@@ -1,7 +1,9 @@
 CPU\CPU.class
 EDD\ProcessList$Node.class
 Process\Process.class
+Scheduler\SchedulingAlgorithm.class
 Interfaces\Menu$3.class
+Scheduler\Scheduler.class
 Interfaces\Menu$1.class
 Interfaces\CreateProcess$4.class
 EDD\Queue$Node.class
@@ -26,4 +28,5 @@ Interfaces\CreateProcess$2.class
 Interfaces\SettingsGUI$4.class
 Interfaces\CreateProcess$7.class
 Settings\Settings.class
+Scheduler\FCFS.class
 Interfaces\SettingsGUI$1.class
