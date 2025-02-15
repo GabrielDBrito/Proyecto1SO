@@ -3,6 +3,8 @@
  */
 
 package com.mycompany.proyecto1so;
+import CPU.CPU;
+import EDD.ProcessList;
 import EDD.Queue;
 import Interfaces.Menu;
 import Process.Process;
@@ -33,6 +35,11 @@ public class Main {
         // Store the number of CPUs selected
         int numberOfCPUs = (choice == 1) ? 3 : 2; // Default to 2 if canceled or closed
         
+        CPU[] cpus = new CPU[numberOfCPUs];
+        for (int i = 0; i < numberOfCPUs; i++) {
+            cpus[i] = new CPU(i + 1); 
+        }
+        
         int instructionDuration = 0;
         String planningAlgorithm = null;
 
@@ -46,14 +53,16 @@ public class Main {
         } catch (IOException | NumberFormatException e) {
             System.out.println("Error reading settings file: " + e.getMessage());
         }
-
-        Settings settings = new Settings(numberOfCPUs, instructionDuration, planningAlgorithm);
-        //settings.printSettings();
         
+        Settings settings = new Settings(numberOfCPUs, instructionDuration, planningAlgorithm);
+        System.out.println(settings.getCPUs());
         Queue<Process> readyQueue = new Queue<>();
+        Queue<Process> blockedQueue = new Queue<>();
+        ProcessList exitList= new ProcessList(); // culminated processes
+        
 
         java.awt.EventQueue.invokeLater(() -> {
-            new Menu(readyQueue, settings).setVisible(true);
+            new Menu(readyQueue,blockedQueue,exitList,settings,cpus).setVisible(true);
         });
     }
 }

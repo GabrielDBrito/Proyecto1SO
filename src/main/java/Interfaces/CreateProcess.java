@@ -4,6 +4,8 @@
  */
 package Interfaces;
 
+import CPU.CPU;
+import EDD.ProcessList;
 import EDD.Queue;
 import javax.swing.JOptionPane;
 import Process.Process;
@@ -19,14 +21,23 @@ public class CreateProcess extends javax.swing.JFrame {
     private boolean CPUbound;
     private boolean IObound;
     private static Queue readyQueue;
+<<<<<<< HEAD
     private int arrivalTimeCounter=0;
+=======
+    private static ExecutionWindow executionWindow;
+    private static CPU[] cpus;
+
+>>>>>>> main
     /**
      * Creates new form CreateProcess
      */
-    public CreateProcess(Queue readyQueue) {
+    public CreateProcess(Queue readyQueue, ExecutionWindow executionWindow, CPU[] cpus) {
         this.readyQueue=readyQueue;
+        this.executionWindow=executionWindow;
+        this.cpus=cpus;
+
         initComponents();
-        setLocationRelativeTo(null); // Centra la ventana en la pantalla
+        setLocationRelativeTo(null); // Centering the window
     }
 
     /**
@@ -58,7 +69,6 @@ public class CreateProcess extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(204, 0, 102));
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -329,6 +339,9 @@ public class CreateProcess extends javax.swing.JFrame {
         }
             Process newProcess= new Process(name,instructionCount,CPUbound,IObound,cyclesForException,cyclesToCompleteRequest,selectedInteger, arrivalTime);
             readyQueue.enqueue(newProcess);
+            if(executionWindow!=null){
+                executionWindow.updateWindow();//update executionwindow
+            }
             
             // Reset values
             CPUbound = false;
@@ -395,7 +408,7 @@ public class CreateProcess extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CreateProcess(readyQueue).setVisible(true);
+                new CreateProcess(readyQueue,executionWindow,cpus).setVisible(true);
             }
         });
     }
