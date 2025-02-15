@@ -1,11 +1,6 @@
 CPU\CPU.class
 EDD\ProcessList$Node.class
 Process\Process.class
-<<<<<<< HEAD
-EDD\Queue.class
-Scheduler\RoundRobin.class
-=======
->>>>>>> main
 Interfaces\Menu$3.class
 Interfaces\Menu$1.class
 Interfaces\CreateProcess$4.class
@@ -24,6 +19,7 @@ Interfaces\CreateProcess$5.class
 com\mycompany\proyecto1so\Main.class
 Interfaces\ExecutionWindow.class
 EDD\Queue.class
+Scheduler\RoundRobin.class
 Interfaces\CreateProcess$3.class
 Interfaces\Menu$2.class
 Interfaces\SettingsGUI$3.class

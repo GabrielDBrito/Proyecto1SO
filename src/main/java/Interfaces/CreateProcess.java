@@ -21,13 +21,10 @@ public class CreateProcess extends javax.swing.JFrame {
     private boolean CPUbound;
     private boolean IObound;
     private static Queue readyQueue;
-<<<<<<< HEAD
     private int arrivalTimeCounter=0;
-=======
     private static ExecutionWindow executionWindow;
     private static CPU[] cpus;
 
->>>>>>> main
     /**
      * Creates new form CreateProcess
      */
