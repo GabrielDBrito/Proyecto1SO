@@ -135,7 +135,9 @@ public class Process extends Thread {
     }
 
       
-    
+    public int compareTo(Process other) {
+        return Integer.compare(this.instructionCount, other.getInstructionCount());
+    }
     
     public void printProcessDetails() {
         System.out.println("Process ID: " + ID);
@@ -150,6 +152,12 @@ public class Process extends Thread {
         System.out.println("Memory Address Register (MAR): " + MAR);
         System.out.println("Priority: " + priority);
     }
+    
+    @Override
+public String toString() {
+    return "Process Name: " + this.processName + ", Instruction Count: " + this.instructionCount;
+}
+
 }
 
 

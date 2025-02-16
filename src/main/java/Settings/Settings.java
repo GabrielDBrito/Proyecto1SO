@@ -4,6 +4,8 @@
  */
 package Settings;
 
+import Clock.ClockManager;
+
 /**
  *
  * @author Gabriel
@@ -11,13 +13,15 @@ package Settings;
 public class Settings {
 
     private int CPUs;
-    private int instructionDuration;
+    private double instructionDuration;
     private String planningAlgorithm;
+    private ClockManager clockManager;
 
-    public Settings (int CPUs, int instructionDuration, String planningAlgorithm){
+    public Settings (int CPUs, double instructionDuration, String planningAlgorithm,ClockManager clockManager){
         this.CPUs=CPUs;
         this.instructionDuration=instructionDuration;
         this.planningAlgorithm=planningAlgorithm;
+        this.clockManager = clockManager;
     }
     
     public int getCPUs() {
@@ -28,12 +32,13 @@ public class Settings {
         this.CPUs = CPUs;
     }
 
-    public int getInstructionDuration() {
+    public double getInstructionDuration() {
         return instructionDuration;
     }
 
-    public void setInstructionDuration(int instructionDuration) {
+    public void setInstructionDuration(double instructionDuration) {
         this.instructionDuration = instructionDuration;
+        clockManager.updateInstructionDuration(instructionDuration);
     }
 
     public String getPlanningAlgorithm() {

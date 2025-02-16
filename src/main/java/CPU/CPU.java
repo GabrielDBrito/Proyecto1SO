@@ -6,17 +6,27 @@ package CPU;
 import EDD.ProcessList;
 import EDD.Queue;
 import Process.Process;
+import Scheduler.Scheduler;
 /**
  *
  * @author Gabriel
  */
 public class CPU {
+
+    public Scheduler getScheduler() {
+        return scheduler;
+    }
+
+    public void setScheduler(Scheduler scheduler) {
+        this.scheduler = scheduler;
+    }
     
     private Integer ID;
     private String runningProcess;
     private Integer PC;
     private Integer MAR;
     private Process process;
+    private Scheduler scheduler;
     
     public CPU(Integer ID) {
         this.ID = ID;
@@ -65,26 +75,29 @@ public class CPU {
         this.process = process;
     }
     
-    public void run(Process process){
-        setProcess(process);
-        setRunningProcess("P"+process.getID());
-        setPC(process.getPC());
-        setMAR(process.getMAR());
-    }
+   public void run(Process process) {
+    System.out.println("CPU is running: " + process.getprocessName());  // Debug print
+    setProcess(process);
+    setRunningProcess("P" + process.getID());
+    setPC(process.getPC());
+    setMAR(process.getMAR());
+}
+
     
     public void block(Queue blockQueue){
         Process process=getProcess();
-        setRunningProcess("OS");
-        setPC(0);
-        setMAR(0);
         blockQueue.enqueue(process);  
+        runningOS();
     }
     
     public void terminate(ProcessList exitList){
         Process process=getProcess();
+        exitList.add(process); 
+        runningOS();
+    }
+    public void runningOS(){
         setRunningProcess("OS");
         setPC(0);
         setMAR(0);
-        exitList.add(process); 
     }
 }

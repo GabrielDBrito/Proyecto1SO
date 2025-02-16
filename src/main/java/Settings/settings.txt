@@ -1,4 +1,10 @@
 #Updated Settings
+
 #Sat Feb 15 19:47:13 GMT-04:00 2025
 instructionDuration=4
 planningAlgorithm="Item 1"
+
+#Wed Feb 12 18:29:00 GMT-04:00 2025
+instructionDuration=1.0
+planningAlgorithm="FCFS"
+

@@ -6,47 +6,60 @@ package Scheduler;
 
 import EDD.Queue;
 import Process.Process;
+import CPU.CPU;
+
 
 /**
  *
  * @author Andrea
  */
-public class RoundRobin {
-      private int quantum= 5;  // Hay q agregar algo en la interfaz que permita preguntarle al usuario esto puede ser 5,10,15
 
-    // Constructor for the quantum
-    public RoundRobin(int quantum) {
-        this.quantum = quantum;
+public class RoundRobin implements SchedulingAlgorithm {
+    private int quantum = 5;
+
+    @Override
+    public void reorder() {
+        // Implement reordering logic if necessary (depends on your algorithm)
     }
 
+   @Override
+public void dispatch(CPU cpu) {
+    Queue<Process> readyQueue = cpu.getScheduler().getReadyQueue();  // Get the ready queue from Scheduler
+    System.out.println("Dispatching process...");  // Debug print
+
+    if (!readyQueue.isEmpty()) {
+        Process currentProcess = readyQueue.dequeue();
+        System.out.println("Running process: " + currentProcess.getprocessName());  // Debug print
+        cpu.run(currentProcess);  // Run the process
+    }
+}
+
     public void executeRoundRobin(Queue<Process> queue) {
-        Queue<Process> readyQueue = new Queue<>();  //Ready queue
+        Queue<Process> readyQueue = new Queue<>();
         int currentTime = 0;
 
-        // Adds proccess to queue
+        // Move processes into the readyQueue
         while (!queue.isEmpty()) {
             readyQueue.enqueue(queue.dequeue());
         }
 
-        // runs processes following roundrobin
+        // Execute processes based on Round Robin scheduling
         while (!readyQueue.isEmpty()) {
             Process currentProcess = readyQueue.dequeue();
             int remainingBurstTime = currentProcess.getInstructionCount();
-
             System.out.println("Time: " + currentTime + " - Running process: " + currentProcess.getprocessName());
 
             if (remainingBurstTime > quantum) {
-                // If time > quantum
-                currentProcess.setInstructionCount(remainingBurstTime - quantum);  // minus left time
-                currentTime += quantum;  // Adds to the global time of the quantum
-                System.out.println("Time: " + currentTime + " - Running process " + currentProcess.getprocessName() + " paused, time left: " + currentProcess.getInstructionCount());
-                readyQueue.enqueue(currentProcess);  // Reinsterts the process in the queue
+                currentProcess.setInstructionCount(remainingBurstTime - quantum);  // Update remaining time
+                currentTime += quantum;
+                System.out.println("Time: " + currentTime + " - Process " + currentProcess.getprocessName() + " paused, time left: " + currentProcess.getInstructionCount());
+                readyQueue.enqueue(currentProcess);  // Reinsert process back into the queue
             } else {
-                // process time < quantum
-                currentTime += remainingBurstTime;  // Adds to the global time
+                currentTime += remainingBurstTime;
                 System.out.println("Time: " + currentTime + " - Process " + currentProcess.getprocessName() + " completed");
             }
         }
+
         System.out.println("All processes have been executed.");
     }
 }

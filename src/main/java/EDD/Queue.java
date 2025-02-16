@@ -89,6 +89,22 @@ public class Queue<T> {
         return front.data;
     }
     
+     // Method to peek at the front element without removing it
+    public T peekFront() {
+        if (isEmpty()) {
+            return null;
+        }
+        return front.data;
+    }
+
+    // Method to peek at the rear element without removing it
+    public T peekRear() {
+        if (isEmpty()) {
+            return null;
+        }
+        return rear.data;
+    }
+    
     public Node<T>[] getAllNodes() {
         Node<T>[] array = (Node<T>[]) new Node[size]; // nodes array
         Node<T> current = front;
@@ -100,6 +116,44 @@ public class Queue<T> {
         }
         return array;
     }
+    
+     // Return an array of all elements in the queue
+    // Method to return an array of all elements in the queue
+public Process[] getAllElements() {
+    Process[] elements = new Process[size]; // Create an array of Process with the size of the queue
+    Node<T> current = front;               // Start from the front node
+    int index = 0;
+    while (current != null) {
+        elements[index++] = (Process) current.data; // Cast to Process
+        current = current.next; // Move to the next node
+    }
+    return elements;
+}
+
+    
+    // Clear the queue
+    public void clear() {
+        front = null;
+        rear = null;
+        size = 0;
+    }
+    
+ public void printQueue() {
+    Node<T> current = front;
+    System.out.print("Queue: ");
+    while (current != null) {
+        System.out.print(current.data.toString() + " ");  // Print the data of each element
+        current = current.next;
+    }
+    System.out.println();
+}
+
+
+
+    
+    
+    
+    
     
     /*How to use getAllNodes
     

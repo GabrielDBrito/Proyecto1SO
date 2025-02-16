@@ -76,7 +76,7 @@ public class SettingsGUI extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "\"Item 1\"", "\"Item 2\"", "\"Item 3\"", "\"Item 4\"" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "\"FCFS\"", "\"Round Robin\"", "\"SPN\"", "\"SRT\"", "\"HRRN\"" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -112,7 +112,7 @@ public class SettingsGUI extends javax.swing.JFrame {
                                     .addComponent(jLabel5)
                                     .addComponent(jLabel6)))
                             .addComponent(jLabel7))
-                        .addContainerGap(209, Short.MAX_VALUE))))
+                        .addContainerGap(192, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(238, 238, 238)
                 .addComponent(jButton1)
@@ -153,16 +153,15 @@ public class SettingsGUI extends javax.swing.JFrame {
         // Aply button
         
         String ExecutionTime1=jTextField1.getText();    //executioncycle
-        String PlanningAlgorithm1=jComboBox1.getSelectedItem().toString();
-        
-        int executionTime; 
+        String PlanningAlgorithm1 = (String) jComboBox1.getSelectedItem();
+        double executionTime; 
     
         try {
             
-            executionTime = Integer.parseInt(ExecutionTime1);
+            executionTime = Double.parseDouble(ExecutionTime1);
         } catch (NumberFormatException e) {
             
-            JOptionPane.showMessageDialog(this, "Error: Execution cycle must be an integer.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error: Execution cycle must be a number.", "Input Error", JOptionPane.ERROR_MESSAGE);
             return; 
         }
 
@@ -185,11 +184,11 @@ public class SettingsGUI extends javax.swing.JFrame {
 
             properties.setProperty("instructionDuration", String.valueOf(executionTime));
             properties.setProperty("planningAlgorithm", PlanningAlgorithm1);
-
+            
             FileOutputStream outputStream = new FileOutputStream(file);
             properties.store(outputStream, "Updated Settings");
             outputStream.close();
-
+            
             JOptionPane.showMessageDialog(this, "Settings updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Error updating settings file.", "File Error", JOptionPane.ERROR_MESSAGE);
