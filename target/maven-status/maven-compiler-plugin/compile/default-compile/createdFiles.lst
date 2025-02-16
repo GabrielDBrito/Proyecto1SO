@@ -19,6 +19,7 @@ Interfaces\SettingsGUI.class
 Interfaces\CreateProcess$1.class
 Interfaces\CreateProcess$6.class
 Interfaces\CreateProcess$5.class
+Scheduler\SPN.class
 com\mycompany\proyecto1so\Main.class
 Interfaces\ExecutionWindow.class
 EDD\Queue.class

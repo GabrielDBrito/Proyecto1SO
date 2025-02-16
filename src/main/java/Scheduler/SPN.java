@@ -7,36 +7,34 @@ package Scheduler;
 import CPU.CPU;
 import EDD.Queue;
 import Process.Process;
+
 /**
  *
  * @author Andrea
  */
+public class SPN implements SchedulingAlgorithm {
+    private Queue<Process> readyQueue; // Custom queue implementation
 
-
-public class SRT implements SchedulingAlgorithm {
-
-    private Queue<Process> readyQueue;
-
-    public SRT(Queue<Process> readyQueue) {
+    public SPN(Queue<Process> readyQueue) {
         this.readyQueue = readyQueue;
     }
 
     @Override
     public void reorder() {
-        // Create an intermediate array to store the processes
+        // Create a temporary array to store the processes
         Process[] processes = new Process[readyQueue.getSize()];
-
-        // Manually populate the processes array using the queue elements
         int index = 0;
+
+        // Dequeue all elements from the readyQueue to array
         while (!readyQueue.isEmpty()) {
             processes[index++] = readyQueue.dequeue();
         }
 
-        // Sort the processes based on their remaining burst time (SRT)
+        // Sort the processes based on instruction count for SPN
         for (int i = 0; i < processes.length - 1; i++) {
             for (int j = i + 1; j < processes.length; j++) {
-                if (processes[i].getRemainingBurstTime() > processes[j].getRemainingBurstTime()) {
-                    // Swap the processes if the first has more remaining burst time
+                if (processes[i].getInstructionCount() > processes[j].getInstructionCount()) {
+                    // Swap the processes if the first has more instruction count
                     Process temp = processes[i];
                     processes[i] = processes[j];
                     processes[j] = temp;
@@ -51,10 +49,13 @@ public class SRT implements SchedulingAlgorithm {
     }
 
     @Override
-    public void dispatch(CPU cpu) {
-        reorder();  // Reorder the processes based on SRT (shortest remaining time)
-        Process nextProcess = readyQueue.dequeue();  // Get the process with the shortest remaining burst time
+public void dispatch(CPU cpu) {
+    reorder();  // Reorder the processes based on SPN (Shortest Process Next)
+
+    // Continue dispatching processes in order
+    while (!readyQueue.isEmpty()) {
+        Process nextProcess = readyQueue.dequeue();  // Get the next process in the ordered queue
         System.out.println("Dispatching: " + nextProcess.getprocessName());
         cpu.run(nextProcess);  // Dispatch the process to the CPU
     }
-}
+}}

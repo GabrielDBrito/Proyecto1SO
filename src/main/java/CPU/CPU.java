@@ -75,13 +75,14 @@ public class CPU {
         this.process = process;
     }
     
-   public void run(Process process) {
-    System.out.println("CPU is running: " + process.getprocessName());  // Debug print
+public void run(Process process) {
+    System.out.println("CPU is running: " + process.getprocessName());  // Ensure the method name matches exactly in the Process class
     setProcess(process);
-    setRunningProcess("P" + process.getID());
-    setPC(process.getPC());
-    setMAR(process.getMAR());
+    setRunningProcess("P" + process.getID());  // Ensure getID() method exists in Process class
+    setPC(process.getID());  // Ensure getPC() method exists in Process class
+    setMAR(process.getMAR());  // Ensure getMAR() method exists in Process class
 }
+
 
     
     public void block(Queue blockQueue){
