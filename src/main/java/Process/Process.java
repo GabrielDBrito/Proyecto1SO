@@ -28,6 +28,7 @@ public class Process extends Thread {
     private Integer priority;
     private Semaphore mutex;
     private int arrivalTime;
+    private double responseRatio;
 
     public Process(String processName, int instructionCount, boolean CPUbound, boolean IObound,
                    Integer cyclesToExcept, Integer cyclesToCompleteRequest, Integer priority, int arrivalTime) {
@@ -44,6 +45,7 @@ public class Process extends Thread {
         this.MAR = 0;
         this.priority = priority;
         this.arrivalTime = arrivalTime;
+        this.responseRatio=0;
     }
 
     // Getter and setter methods
@@ -57,6 +59,14 @@ public class Process extends Thread {
 
     public Integer getInstructionCount() {
         return instructionCount;
+    }
+
+    public double getResponseRatio() {
+        return responseRatio;
+    }
+
+    public void setResponseRatio(double responseRatio) {
+        this.responseRatio = responseRatio;
     }
 
     public void setInstructionCount(int instructionCount) {
@@ -77,6 +87,14 @@ public class Process extends Thread {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(int arrivalTime) {
+        this.arrivalTime = arrivalTime;
     }
 
  

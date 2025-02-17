@@ -1,6 +1,7 @@
 Clock\ClockManager.class
 CPU\CPU.class
 EDD\ProcessList$Node.class
+Scheduler\HRRN.class
 Process\Process.class
 Scheduler\SchedulingAlgorithm.class
 Interfaces\Menu$3.class

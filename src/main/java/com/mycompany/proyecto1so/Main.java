@@ -10,6 +10,7 @@ import EDD.Queue;
 import Interfaces.Menu;
 import Process.Process;
 import Scheduler.FCFS;
+import Scheduler.HRRN;
 import Scheduler.RoundRobin;
 import Scheduler.SPN;
 import Scheduler.SRT;
@@ -28,26 +29,48 @@ import java.util.Properties;
 public class Main {
 
     public static void main(String[] args) {
-         Process p1 = new Process("Process1", 10, true, false, 3, 4, 1, 0);
+        /*  
+        
+        //TEST SPN
+        Process p1 = new Process("Process1", 10, true, false, 3, 4, 1, 0);
         Process p2 = new Process("Process2", 5, false, true, 2, 3, 2, 0);
         Process p3 = new Process("Process3", 15, true, false, 5, 6, 3, 0);
-
+        
         // Create a custom Queue and enqueue the processes
         Queue<Process> readyQueue = new Queue<>();
         readyQueue.enqueue(p1);
         readyQueue.enqueue(p2);
         readyQueue.enqueue(p3);
-
+        
         // Create a CPU instance (assuming you have a CPU class)
         CPU cpu = new CPU(1);
-
+        
         // Create the SPN scheduler and pass in the readyQueue
         SPN spnScheduler = new SPN(readyQueue);
-
+        
         // Run the SPN scheduler to dispatch the processes
         spnScheduler.dispatch(cpu);
+        }*/
+        // Step 1: Create a queue for the ready processes
+        Queue<Process> readyQueue = new Queue<>();
+
+        // Step 2: Add test processes (arrivalTime, instructionCount = burst time)
+        readyQueue.enqueue(new Process("Process1", 10, true, false, 0, 0, 1, 0));
+        readyQueue.enqueue(new Process("Process3", 8, true, false, 0, 0, 1, 4));
+        readyQueue.enqueue(new Process("Process2", 5, true, false, 0, 0, 1, 2));
+        
+
+        // Step 3: Create CPU and HRRN scheduler
+        CPU cpu = new CPU(1);
+        HRRN hrrnScheduler = new HRRN(readyQueue);
+
+        // Step 4: Run scheduling
+        while (!readyQueue.isEmpty()) {
+            hrrnScheduler.dispatch(cpu);
+        }
     }
 }
+
 /*
 
 //TEST FOR SRT
