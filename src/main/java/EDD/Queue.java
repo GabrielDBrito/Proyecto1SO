@@ -158,21 +158,21 @@ public Process[] getAllElements() {
 
     while (current != null) {
         if (current.data instanceof Process && ((Process) current.data).getID().equals(id)) {
-            if (previous == null) { // Si el nodo a eliminar es el primero (front)
-                return dequeue(); // Usamos el método dequeue normal
+            if (previous == null) { 
+                return dequeue(); 
             } else {
                 previous.next = current.next;
-                if (current == rear) { // Si el nodo a eliminar es el último (rear)
+                if (current == rear) { 
                     rear = previous;
                 }
                 size--;
-                return current.data; // Retornamos el proceso eliminado
+                return current.data; 
             }
         }
         previous = current;
         current = current.next;
     }
-    return null; // Si no se encuentra el proceso con el ID dado
+    return null; 
 }
 
 

@@ -133,6 +133,10 @@ public class ExecutionWindow extends JFrame {
 
         JLabel idLabel = new JLabel("CPU " + cpu.getID());
         JLabel processLabel = new JLabel("Process: " + cpu.getRunningProcess());
+        JLabel nameLabel = new JLabel("Name: ");
+        if (cpu.getProcess() != null && cpu.getProcess().getprocessName() != null) {
+            nameLabel.setText("Name: " + cpu.getProcess().getprocessName());
+        }
         JLabel pcLabel = new JLabel("PC: " + cpu.getPC());
         JLabel marLabel = new JLabel("MAR: " + cpu.getMAR());
 
@@ -144,6 +148,7 @@ public class ExecutionWindow extends JFrame {
 
         panel.add(idLabel);
         panel.add(processLabel);
+        panel.add(nameLabel);
         panel.add(pcLabel);
         panel.add(marLabel);
 
@@ -207,7 +212,7 @@ public class ExecutionWindow extends JFrame {
         panel.setBackground(Color.WHITE);
         JLabel idLabel = new JLabel("ID: " + process.getID());
         JLabel statusLabel = new JLabel("Status: " + process.getStatus());
-        JLabel nameLabel = new JLabel("Name: " + process.getName());
+        JLabel nameLabel = new JLabel("Name: " + process.getprocessName());
         JLabel pcLabel = new JLabel("PC: " + process.getPC());
         JLabel marLabel = new JLabel("MAR: " + process.getMAR());
 

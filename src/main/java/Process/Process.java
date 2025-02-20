@@ -132,6 +132,14 @@ public class Process extends Thread {
     public void setIObound(boolean IObound) {
         this.IObound = IObound;
     }
+
+    public void setPC(Integer PC) {
+        this.PC = PC;
+    }
+
+    public void setMAR(Integer MAR) {
+        this.MAR = MAR;
+    }
     
 
     public void printProcessDetails() {

@@ -131,6 +131,9 @@ public class CPU {
     
     public void terminate(){
         Process process=getProcess();
+        process.setStatus("Exit");
+        process.setMAR(this.MAR);
+        process.setPC(this.PC);
         exitList.add(process); 
         runningOS();
     }
