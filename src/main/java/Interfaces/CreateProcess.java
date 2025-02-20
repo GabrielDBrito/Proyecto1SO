@@ -24,6 +24,7 @@ public class CreateProcess extends javax.swing.JFrame {
     private int arrivalTimeCounter=0;
     private static ExecutionWindow executionWindow;
     private static CPU[] cpus;
+    private int processId;
 
     /**
      * Creates new form CreateProcess
@@ -32,6 +33,7 @@ public class CreateProcess extends javax.swing.JFrame {
         this.readyQueue=readyQueue;
         this.executionWindow=executionWindow;
         this.cpus=cpus;
+        this.processId=0;
 
         initComponents();
         setLocationRelativeTo(null); // Centering the window
@@ -58,13 +60,10 @@ public class CreateProcess extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(204, 0, 102));
 
@@ -113,13 +112,6 @@ public class CreateProcess extends javax.swing.JFrame {
 
         jLabel6.setText("Cycles for exception");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-
         jLabel8.setText("Cycles to complete");
 
         jLabel9.setText("the request");
@@ -129,10 +121,6 @@ public class CreateProcess extends javax.swing.JFrame {
                 jTextField4ActionPerformed(evt);
             }
         });
-
-        jLabel10.setText("Priority");
-
-        jLabel11.setText("(1=max priority)");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -168,8 +156,7 @@ public class CreateProcess extends javax.swing.JFrame {
                                             .addComponent(jLabel9))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel7))
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -180,13 +167,11 @@ public class CreateProcess extends javax.swing.JFrame {
                                         .addGap(6, 6, 6)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
-                                            .addComponent(jTextField4)
-                                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                            .addComponent(jTextField4))))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jToggleButton1)
-                            .addComponent(jLabel11))
+                            .addComponent(jToggleButton1))
                         .addGap(39, 39, 39))))
         );
         layout.setVerticalGroup(
@@ -228,12 +213,7 @@ public class CreateProcess extends javax.swing.JFrame {
                                         .addComponent(jLabel8)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel9)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel10)
-                                    .addComponent(jLabel11))
-                                .addGap(12, 12, 12)))))
+                                .addGap(17, 64, Short.MAX_VALUE)))))
                 .addComponent(jButton1)
                 .addGap(30, 30, 30))
         );
@@ -285,8 +265,6 @@ public class CreateProcess extends javax.swing.JFrame {
         String instructionCount1 = jTextField2.getText();
         String cyclesForButton1 = jTextField3.getText();
         String cyclesToCompleteRequest1 = jTextField4.getText(); 
-        String selectedOption = (String) jComboBox1.getSelectedItem();
-        Integer selectedInteger = Integer.parseInt(selectedOption);
          // Automatically assign arrival time based on the counter
         int arrivalTime = arrivalTimeCounter++;
 
@@ -334,8 +312,11 @@ public class CreateProcess extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "You must select 'CPU bound' or 'I/O bound'.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-            Process newProcess= new Process(name,instructionCount,CPUbound,IObound,cyclesForException,cyclesToCompleteRequest,selectedInteger, arrivalTime);
+            Process newProcess= new Process(processId,name,instructionCount,CPUbound,IObound,cyclesForException,cyclesToCompleteRequest,null, arrivalTime);
+            processId++;
+            newProcess.printProcessDetails();
             readyQueue.enqueue(newProcess);
+            //cpus[0].run(newProcess);
             if(executionWindow!=null){
                 executionWindow.updateWindow();//update executionwindow
             }
@@ -366,10 +347,6 @@ public class CreateProcess extends javax.swing.JFrame {
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // Instruction count
     }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        
-    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
         // TODO add your handling code here:
@@ -405,17 +382,14 @@ public class CreateProcess extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CreateProcess(readyQueue,executionWindow,cpus).setVisible(true);
+
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

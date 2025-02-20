@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package EDD;
-
+import Process.Process;
 /**
  *
  * @author Gabriel
@@ -140,14 +140,40 @@ public Process[] getAllElements() {
     
  public void printQueue() {
     Node<T> current = front;
-    System.out.print("Queue: ");
     while (current != null) {
         System.out.print(current.data.toString() + " ");  // Print the data of each element
         current = current.next;
+        System.out.println("");
     }
     System.out.println();
 }
 
+ public T dequeueById(Integer id) {
+    if (isEmpty()) {
+        throw new IllegalStateException("Queue is empty.");
+    }
+
+    Node<T> current = front;
+    Node<T> previous = null;
+
+    while (current != null) {
+        if (current.data instanceof Process && ((Process) current.data).getID().equals(id)) {
+            if (previous == null) { // Si el nodo a eliminar es el primero (front)
+                return dequeue(); // Usamos el método dequeue normal
+            } else {
+                previous.next = current.next;
+                if (current == rear) { // Si el nodo a eliminar es el último (rear)
+                    rear = previous;
+                }
+                size--;
+                return current.data; // Retornamos el proceso eliminado
+            }
+        }
+        previous = current;
+        current = current.next;
+    }
+    return null; // Si no se encuentra el proceso con el ID dado
+}
 
 
     

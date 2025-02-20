@@ -51,15 +51,16 @@ public class Main {
         // Run the SPN scheduler to dispatch the processes
         spnScheduler.dispatch(cpu);
         }*/
+        /*
         // Step 1: Create a queue for the ready processes
         Queue<Process> readyQueue = new Queue<>();
-
-        // Step 2: Add test processes (arrivalTime, instructionCount = burst time)
-        readyQueue.enqueue(new Process("Process1", 10, true, false, 0, 0, 1, 0));
-        readyQueue.enqueue(new Process("Process3", 8, true, false, 0, 0, 1, 4));
-        readyQueue.enqueue(new Process("Process2", 5, true, false, 0, 0, 1, 2));
         
-
+        // Step 2: Add test processes (arrivalTime, instructionCount = burst time)
+        readyQueue.enqueue(new Process(0,"Process1", 10, true, false, 0, 0, 1, 0));
+        readyQueue.enqueue(new Process(1,"Process3", 8, true, false, 0, 0, 1, 4));
+        readyQueue.enqueue(new Process(2,"Process2", 5, true, false, 0, 0, 1, 2));
+        
+        
         // Step 3: Create CPU and HRRN scheduler
         CPU cpu = new CPU(1);
         HRRN hrrnScheduler = new HRRN(readyQueue);
@@ -68,10 +69,12 @@ public class Main {
         while (!readyQueue.isEmpty()) {
             hrrnScheduler.dispatch(cpu);
         }
+        */
+/*
     }
 }
+        
 
-/*
 
 //TEST FOR SRT
 Queue<Process> queue = new Queue<>();
@@ -133,9 +136,11 @@ srt.dispatch(cpu);
         
         // After the Round Robin scheduling completes, check the final states
         System.out.println("All processes have been executed.");
-        }}*/
+        }}
+------------------------------------------------------------------------------------------
+*/
 
-/*double instructionDuration = 0;
+double instructionDuration = 0;
 String planningAlgorithm = null;
 try (FileReader reader = new FileReader("src/main/java/Settings/settings.txt")) {
 Properties properties = new Properties();
@@ -183,15 +188,17 @@ options[0]
 // Store the number of CPUs selected
 int numberOfCPUs = (choice == 1) ? 3 : 2; // Default to 2 if canceled or closed
 
+ClockManager clockManager = new ClockManager(instructionDuration); //clockCycles
+Settings settings = new Settings(numberOfCPUs, instructionDuration, planningAlgorithm, clockManager);
+
 CPU[] cpus = new CPU[numberOfCPUs];
 for (int i = 0; i < numberOfCPUs; i++) {
 cpus[i] = new CPU(i + 1);
 }
-ClockManager clockManager = new ClockManager(instructionDuration); //clockCycles
-Settings settings = new Settings(numberOfCPUs, instructionDuration, planningAlgorithm, clockManager);
+
 
 java.awt.EventQueue.invokeLater(() -> {
 new Menu(readyQueue, blockedQueue, exitList, settings, cpus, scheduler, clockManager).setVisible(true);
 });
 }
-}*/
+}

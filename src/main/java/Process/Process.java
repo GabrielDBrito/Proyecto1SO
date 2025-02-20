@@ -30,9 +30,9 @@ public class Process extends Thread {
     private int arrivalTime;
     private double responseRatio;
 
-    public Process(String processName, int instructionCount, boolean CPUbound, boolean IObound,
+    public Process(int id, String processName, int instructionCount, boolean CPUbound, boolean IObound,
                    Integer cyclesToExcept, Integer cyclesToCompleteRequest, Integer priority, int arrivalTime) {
-        this.ID = 0;  // Check if needed
+        this.ID = id;  // Check if needed
         this.processName = processName;
         this.instructionCount = instructionCount;
         this.remainingBurstTime = instructionCount; // Initialize remaining burst time to total instruction count
@@ -46,6 +46,22 @@ public class Process extends Thread {
         this.priority = priority;
         this.arrivalTime = arrivalTime;
         this.responseRatio=0;
+    }
+
+    public Integer getCyclesToExcept() {
+        return cyclesToExcept;
+    }
+
+    public void setCyclesToExcept(Integer cyclesToExcept) {
+        this.cyclesToExcept = cyclesToExcept;
+    }
+
+    public Integer getCyclesToCompleteRequest() {
+        return cyclesToCompleteRequest;
+    }
+
+    public void setCyclesToCompleteRequest(Integer cyclesToCompleteRequest) {
+        this.cyclesToCompleteRequest = cyclesToCompleteRequest;
     }
 
     // Getter and setter methods
@@ -97,20 +113,25 @@ public class Process extends Thread {
         this.arrivalTime = arrivalTime;
     }
 
- 
+    public Integer getID() {
+        return ID;
+    }
 
-public Integer getID() {
-    return ID;
-}
+    public Integer getPC() {
+        return PC;
+    }
 
-public Integer getPC() {
-    return PC;
-}
+    public Integer getMAR() {
+        return MAR;
+    }
+    
+    public boolean isIObound() {
+        return IObound;
+    }
 
-public Integer getMAR() {
-    return MAR;
-}
-
+    public void setIObound(boolean IObound) {
+        this.IObound = IObound;
+    }
     
 
     public void printProcessDetails() {
@@ -125,7 +146,6 @@ public Integer getMAR() {
         System.out.println("Status: " + status);
         System.out.println("Program Counter (PC): " + PC);
         System.out.println("Memory Address Register (MAR): " + MAR);
-        System.out.println("Priority: " + priority);
     }
 
     @Override

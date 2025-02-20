@@ -56,6 +56,16 @@ public class ClockManager {
         startClock(); // new time interval 
     }
 
+    public double getInstructionDuration() {
+        return instructionDuration;
+    }
+
+    public void setInstructionDuration(double instructionDuration) {
+        this.instructionDuration = instructionDuration;
+    }
+    
+    
+
     public synchronized int getClockCycles() {
         return clockCycles;
     }

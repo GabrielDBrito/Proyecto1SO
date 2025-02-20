@@ -77,7 +77,7 @@ public class ExecutionWindow extends JFrame {
         infoPanel.add(planningAlgorithmLabel);
 
         add(infoPanel, BorderLayout.NORTH);
-
+        
         // Panel de CPUs
         cpuPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
         cpuPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(COLOR_PRIMARY, 2), "CPUs"));
@@ -204,7 +204,6 @@ public class ExecutionWindow extends JFrame {
                 BorderFactory.createLineBorder(COLOR_ACCENT, 1),
                 BorderFactory.createEmptyBorder(5, 5, 5, 5)));
         panel.setBackground(Color.WHITE);
-
         JLabel idLabel = new JLabel("ID: " + process.getID());
         JLabel statusLabel = new JLabel("Status: " + process.getStatus());
         JLabel nameLabel = new JLabel("Name: " + process.getName());
@@ -227,7 +226,7 @@ public class ExecutionWindow extends JFrame {
         
         // limiting height
         panel.setPreferredSize(new Dimension(panel.getPreferredSize().width, 55)); 
-        //panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60)); 
+        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60)); 
 
         return panel;
     }

@@ -13,7 +13,6 @@ Interfaces\CreateProcess$8.class
 Interfaces\CreateProcess.class
 EDD\ProcessList.class
 Interfaces\Menu.class
-Interfaces\CreateProcess$9.class
 Interfaces\SettingsGUI$2.class
 Interfaces\Menu$4.class
 Interfaces\SettingsGUI.class
