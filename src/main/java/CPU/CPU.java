@@ -32,6 +32,7 @@ public class CPU {
     private Queue readyQueue;
     private Queue blockedQueue;
     private ProcessList exitList;
+    private String processName;
     
     public CPU(Integer ID, ClockManager clockManager, Queue readyQueue, Queue blockedQueue, ProcessList exitList) {
         this.ID = ID;
@@ -42,6 +43,7 @@ public class CPU {
         this.readyQueue=readyQueue;
         this.blockedQueue=blockedQueue;
         this.exitList=exitList;
+        this.processName="";
     }
 
     public Integer getID() {
@@ -83,10 +85,18 @@ public class CPU {
     public void setProcess(Process process) {
         this.process = process;
     }
+
+    public String getProcessName() {
+        return processName;
+    }
+
+    public void setProcessName(String processName) {
+        this.processName = processName;
+    }
     
     public void run(Process process) {
-        System.out.println("CPU is running: " + process.getprocessName());  // Ensure the method name matches exactly in the Process class
         setProcess(process);
+        setProcessName(process.getprocessName());
         setRunningProcess("P" + process.getID());  // Ensure getID() method exists in Process class
         
         new Thread(() -> {
@@ -120,24 +130,12 @@ public class CPU {
         }).start();
     }
 
-
     public void block(){
         Process process=getProcess();
         blockedQueue.enqueue(process);
         blockedQueueHandler(process);
         runningOS();
-        int targetCycle = clockManager.getClockCycles() + 3; // actual cycle + 3
-        //interrupt --> wait 3 cycles
-        new Thread(() -> {
-            while (clockManager.getClockCycles() < targetCycle) {
-                try {
-                    Thread.sleep(10); 
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-        }).start();
-        }
+    }
     
     public void terminate(){
         Process process=getProcess();
@@ -147,15 +145,16 @@ public class CPU {
         exitList.add(process); 
         runningOS();
     }
+    
     public void runningOS(){
         setRunningProcess("OS");
+        setProcessName("");
     }
     
     public void update() {
         this.PC = clockManager.getClockCycles();
         this.MAR = clockManager.getClockCycles();
         }
-
 
  public void blockedQueueHandler(Process process) {
     new Thread(() -> {

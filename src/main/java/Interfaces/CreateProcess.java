@@ -316,7 +316,7 @@ public class CreateProcess extends javax.swing.JFrame {
             processId++;
             newProcess.printProcessDetails();
             readyQueue.enqueue(newProcess);
-            
+
             if(executionWindow!=null){
                 executionWindow.updateWindow();//update executionwindow
             }

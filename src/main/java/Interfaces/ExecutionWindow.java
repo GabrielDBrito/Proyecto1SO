@@ -133,10 +133,7 @@ public class ExecutionWindow extends JFrame {
 
         JLabel idLabel = new JLabel("CPU " + cpu.getID());
         JLabel processLabel = new JLabel("Process: " + cpu.getRunningProcess());
-        JLabel nameLabel = new JLabel("Name: ");
-        if (cpu.getProcess() != null && cpu.getProcess().getprocessName() != null) {
-            nameLabel.setText("Name: " + cpu.getProcess().getprocessName());
-        }
+        JLabel nameLabel = new JLabel("Name: "+ cpu.getProcessName());
         JLabel pcLabel = new JLabel("PC: " + cpu.getPC());
         JLabel marLabel = new JLabel("MAR: " + cpu.getMAR());
 
