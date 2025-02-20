@@ -88,7 +88,39 @@ public class CPU {
         System.out.println("CPU is running: " + process.getprocessName());  // Ensure the method name matches exactly in the Process class
         setProcess(process);
         setRunningProcess("P" + process.getID());  // Ensure getID() method exists in Process class
+        
+        new Thread(() -> {
+        int startCycle = clockManager.getClockCycles();
+        int targetCycle;
+
+        if (process.isIObound() && process.getCyclesToExcept() < process.getInstructionCount()) {
+            // Si es I/O bound y el tiempo de excepción es menor a las instrucciones totales
+            targetCycle = startCycle + process.getCyclesToExcept();
+        } else {
+            // Si no se cumplen ambas condiciones, terminar el proceso
+            targetCycle = startCycle + process.getInstructionCount();
+        }
+
+        // Esperar hasta que clockManager alcance el ciclo deseado
+        while (clockManager.getClockCycles() < targetCycle) {
+            try {
+                Thread.sleep(100); // Reduce la carga de la CPU
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return;
+            }
+        }
+
+        // Decidir si bloquear o terminar
+        if (process.isIObound() && process.getCyclesToExcept() < process.getInstructionCount()) {
+            block(); // Mueve el proceso a la cola de bloqueados
+        } else {
+            terminate(); // Termina el proceso
+        }
+
+        }).start();
     }
+
 
     public void block(){
         Process process=getProcess();

@@ -315,8 +315,9 @@ public class CreateProcess extends javax.swing.JFrame {
             Process newProcess= new Process(processId,name,instructionCount,CPUbound,IObound,cyclesForException,cyclesToCompleteRequest,null, arrivalTime);
             processId++;
             newProcess.printProcessDetails();
-            readyQueue.enqueue(newProcess);
-            //cpus[0].run(newProcess);
+            //readyQueue.enqueue(newProcess);
+            cpus[0].run(newProcess);
+            //cpus[0].block();
             if(executionWindow!=null){
                 executionWindow.updateWindow();//update executionwindow
             }

@@ -193,7 +193,7 @@ Settings settings = new Settings(numberOfCPUs, instructionDuration, planningAlgo
 
 CPU[] cpus = new CPU[numberOfCPUs];
 for (int i = 0; i < numberOfCPUs; i++) {
-cpus[i] = new CPU(i + 1, clockManager);
+cpus[i] = new CPU(i + 1, clockManager, readyQueue, blockedQueue, exitList);
 }
 
 
