@@ -29,13 +29,19 @@ public class CPU {
     private Process process;
     private Scheduler scheduler;
     private ClockManager clockManager;
+    private Queue readyQueue;
+    private Queue blockedQueue;
+    private ProcessList exitList;
     
-    public CPU(Integer ID, ClockManager clockManager) {
+    public CPU(Integer ID, ClockManager clockManager, Queue readyQueue, Queue blockedQueue, ProcessList exitList) {
         this.ID = ID;
         this.runningProcess = "OS";
         this.PC = 0;
         this.MAR = 0;
         this.clockManager=clockManager;
+        this.readyQueue=readyQueue;
+        this.blockedQueue=blockedQueue;
+        this.exitList=exitList;
     }
 
     public Integer getID() {
@@ -84,13 +90,14 @@ public class CPU {
         setRunningProcess("P" + process.getID());  // Ensure getID() method exists in Process class
     }
 
-    public void block(Queue blockQueue){
+    public void block(){
         Process process=getProcess();
-        blockQueue.enqueue(process);  
+        blockedQueue.enqueue(process);
+        blockedQueueHandler(process);
         runningOS();
     }
     
-    public void terminate(ProcessList exitList){
+    public void terminate(){
         Process process=getProcess();
         exitList.add(process); 
         runningOS();
@@ -102,5 +109,30 @@ public class CPU {
     public void update() {
         this.PC = clockManager.getClockCycles();
         this.MAR = clockManager.getClockCycles();
+        }
+
+
+ public void blockedQueueHandler(Process process) {
+    new Thread(() -> {
+        int blockedUntil = clockManager.getClockCycles() + process.getCyclesToCompleteRequest();
+        process.setInstructionCount(process.getInstructionCount()-process.getCyclesToExcept());
+        while (clockManager.getClockCycles() < blockedUntil) {
+            System.out.println(clockManager.getClockCycles());
+            System.out.println(blockedUntil);
+            System.out.println("------------------------------");
+            try {
+                Thread.sleep(100); // Espera un poco antes de verificar nuevamente
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return; // Si el hilo es interrumpido, salir del método
+            }
+        }
+        // Una vez que los ciclos han pasado, mover el proceso de bloqueado a listo
+        blockedQueue.dequeueById(process.getID());
+        readyQueue.enqueue(process);
+        System.out.println("Process " + process.getID() + " is now ready.");
+
+    }).start();
     }
 }
+    
