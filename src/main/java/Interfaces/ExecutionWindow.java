@@ -176,6 +176,7 @@ public class ExecutionWindow extends JFrame {
         }
 
         for (CPU cpu : cpus) {
+            cpu.update();
             cpuPanel.add(createCPUInfoPanel(cpu));
         }
 

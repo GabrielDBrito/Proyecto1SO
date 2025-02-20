@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package CPU;
+import Clock.ClockManager;
 import EDD.ProcessList;
 import EDD.Queue;
 import Process.Process;
@@ -27,12 +28,14 @@ public class CPU {
     private Integer MAR;
     private Process process;
     private Scheduler scheduler;
+    private ClockManager clockManager;
     
-    public CPU(Integer ID) {
+    public CPU(Integer ID, ClockManager clockManager) {
         this.ID = ID;
         this.runningProcess = "OS";
-        this.PC = null;
-        this.MAR = null;
+        this.PC = 0;
+        this.MAR = 0;
+        this.clockManager=clockManager;
     }
 
     public Integer getID() {
@@ -79,8 +82,6 @@ public class CPU {
         System.out.println("CPU is running: " + process.getprocessName());  // Ensure the method name matches exactly in the Process class
         setProcess(process);
         setRunningProcess("P" + process.getID());  // Ensure getID() method exists in Process class
-        setPC(process.getID());  // Ensure getPC() method exists in Process class
-        setMAR(process.getMAR());  // Ensure getMAR() method exists in Process class
     }
 
     public void block(Queue blockQueue){
@@ -96,7 +97,10 @@ public class CPU {
     }
     public void runningOS(){
         setRunningProcess("OS");
-        setPC(0);
-        setMAR(0);
+    }
+    
+    public void update() {
+        this.PC = clockManager.getClockCycles();
+        this.MAR = clockManager.getClockCycles();
     }
 }
