@@ -126,7 +126,18 @@ public class CPU {
         blockedQueue.enqueue(process);
         blockedQueueHandler(process);
         runningOS();
-    }
+        int targetCycle = clockManager.getClockCycles() + 3; // actual cycle + 3
+        //interrupt --> wait 3 cycles
+        new Thread(() -> {
+            while (clockManager.getClockCycles() < targetCycle) {
+                try {
+                    Thread.sleep(10); 
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }).start();
+        }
     
     public void terminate(){
         Process process=getProcess();
