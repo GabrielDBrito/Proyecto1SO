@@ -218,7 +218,7 @@ if ("fcfs".equals(PlanningAlgorithm1)) {
 } else if ("hrrn".equals(PlanningAlgorithm1)) {
     algorithm = new HRRN(readyQueue);
 } else if ("round robin".equals(PlanningAlgorithm1)) {
-    algorithm = new RoundRobin();
+    algorithm = new RoundRobin(readyQueue, 5);
 } else if ("spn".equals(PlanningAlgorithm1)) {
     algorithm = new SPN(readyQueue);
 } else if ("srt".equals(PlanningAlgorithm1)) {

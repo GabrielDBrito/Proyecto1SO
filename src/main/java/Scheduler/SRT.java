@@ -57,4 +57,4 @@ public class SRT implements SchedulingAlgorithm {
         System.out.println("Dispatching: " + nextProcess.getprocessName());
         cpu.run(nextProcess);  // Dispatch the process to the CPU
     }
-}
+} 

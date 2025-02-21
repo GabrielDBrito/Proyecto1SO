@@ -93,6 +93,14 @@ public class CPU {
     public void setProcessName(String processName) {
         this.processName = processName;
     }
+
+    public ClockManager getClockManager() {
+        return clockManager;
+    }
+
+    public void setClockManager(ClockManager clockManager) {
+        this.clockManager = clockManager;
+    }
     
     public void run(Process process) {
         setProcess(process);
@@ -132,6 +140,7 @@ public class CPU {
 
     public void block(){
         Process process=getProcess();
+        process.setStatus("Blocked");
         blockedQueue.enqueue(process);
         blockedQueueHandler(process);
         runningOS();
@@ -156,22 +165,46 @@ public class CPU {
         this.MAR = clockManager.getClockCycles();
         }
 
- public void blockedQueueHandler(Process process) {
+public void blockedQueueHandler(Process process) {
     new Thread(() -> {
         int blockedUntil = clockManager.getClockCycles() + process.getCyclesToCompleteRequest();
-        process.setInstructionCount(process.getInstructionCount()-process.getCyclesToExcept());
+        process.setInstructionCount(process.getInstructionCount() - process.getCyclesToExcept());
+
+        // Esperamos el tiempo que el proceso necesita estar bloqueado
         while (clockManager.getClockCycles() < blockedUntil) {
             try {
-                Thread.sleep(100); 
+                Thread.sleep(100); // Simula el paso del tiempo
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                return; 
+                return;
             }
         }
-        blockedQueue.dequeueById(process.getID());
-        readyQueue.enqueue(process);
 
+        // Una vez que el tiempo de bloqueo haya terminado
+        blockedQueue.dequeueById(process.getID());
+        process.setStatus("Ready"); // El proceso ahora está listo para ejecutarse
+        readyQueue.enqueue(process); // Lo agregamos a la cola de listos
+
+        // Aseguramos que el Scheduler pueda detectar este cambio
+        // Si tienes un método de despachar procesos, deberías llamarlo aquí.
+        scheduler.dispatch();
     }).start();
+}
+
+    public Queue getReadyQueue() {
+        return readyQueue;
+    }
+
+    public void setReadyQueue(Queue readyQueue) {
+        this.readyQueue = readyQueue;
+    }
+
+    public Queue getBlockedQueue() {
+        return blockedQueue;
+    }
+
+    public void setBlockedQueue(Queue blockedQueue) {
+        this.blockedQueue = blockedQueue;
     }
 }
     

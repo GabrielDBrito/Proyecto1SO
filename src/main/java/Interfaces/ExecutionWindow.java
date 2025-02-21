@@ -92,7 +92,8 @@ public class ExecutionWindow extends JFrame {
         // queue panels
         JPanel queuePanel = new JPanel(new GridLayout(1, 3, 10, 10));
         queuePanel.setBackground(COLOR_BACKGROUND);
-
+        queuePanel.setPreferredSize(new Dimension(500,500));
+queuePanel.setMaximumSize(new Dimension(500,600));
         readyQueuePanel = createScrollablePanel("Ready Queue");
         blockedQueuePanel = createScrollablePanel("Blocked Queue");
         completedProcessesPanel = createScrollablePanel("Completed Processes");

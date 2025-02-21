@@ -3,6 +3,12 @@ package Scheduler;
 import CPU.CPU;
 import EDD.Queue;
 import Process.Process;
+import Scheduler.SchedulingAlgorithm;
+
+/**
+ *
+ * @author Gabriel
+ */
 
 public class Scheduler {
     private Queue<Process> readyQueue;
@@ -26,11 +32,46 @@ public class Scheduler {
         algorithm.reorder();  // Reorder based on the specific algorithm
     }
 
-    // Dispatch processes to each CPU
-    public void dispatch() {
-        for (CPU cpu : cpus) {
-            System.out.println("Dispatching processes to CPU: " + cpu.getID());
-            algorithm.dispatch(cpu);  // Pass each CPU to the dispatch method of the algorithm
+
+public void dispatch() {
+    // Iteramos sobre todas las CPUs disponibles
+    for (CPU cpu : cpus) {
+        // Primero, intentamos despachar un proceso de la cola de listos de la CPU
+        if (!cpu.getReadyQueue().isEmpty()) {
+            Process process = (Process) cpu.getReadyQueue().dequeue(); // Tomamos el primer proceso de la cola de listos
+            cpu.run(process); // Ejecutamos el proceso en esta CPU
+        } else if (!cpu.getBlockedQueue().isEmpty()) {
+            // Si no hay procesos listos en esta CPU pero hay procesos bloqueados, intentamos moverlos a listos
+            Process process = (Process) cpu.getBlockedQueue().dequeue(); // Tomamos un proceso bloqueado
+            process.setStatus("Ready"); // Lo cambiamos a estado "Ready"
+            cpu.getReadyQueue().enqueue(process); // Lo movemos a la cola de listos
+            cpu.run(process); // Ejecutamos el proceso en esta CPU
+        } else {
+            System.out.println("No hay procesos para despachar en CPU " + cpu.getID());
         }
     }
 }
+    
+// Método auxiliar para verificar si hay procesos bloqueados en cualquiera de las CPUs
+private boolean hasBlockedProcesses() {
+    for (CPU cpu : cpus) {
+        if (!cpu.getBlockedQueue().isEmpty()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Método auxiliar para verificar si todas las colas de procesos están vacías
+private boolean allQueuesEmpty() {
+    if (!readyQueue.isEmpty()) return false;
+    for (CPU cpu : cpus) {
+        if (!cpu.getReadyQueue().isEmpty() || !cpu.getBlockedQueue().isEmpty()) {
+            return false;
+        }
+    }
+    return true;
+}
+}
+
+

@@ -73,5 +73,7 @@ public class HRRN implements SchedulingAlgorithm {
 
             currentTime += nextProcess.getInstructionCount();
         }
-    }
-}
+    else {
+            System.out.println("No processes to dispatch.");
+        }
+}}

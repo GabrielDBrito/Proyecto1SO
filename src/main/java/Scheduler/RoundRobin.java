@@ -1,65 +1,67 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Scheduler;
 
 import EDD.Queue;
 import Process.Process;
 import CPU.CPU;
-
-
-/**
- *
- * @author Andrea
- */
+import java.util.concurrent.Semaphore;
 
 public class RoundRobin implements SchedulingAlgorithm {
-    private int quantum = 5;
+    private Queue<Process> readyQueue;
+    private int quantum;
+    private int currentTime;
+    private Semaphore semaphore; // Semáforo para sincronizar el acceso al CPU
+
+    public RoundRobin(Queue<Process> readyQueue, int quantum) {
+        this.readyQueue = readyQueue;
+        this.quantum = quantum;
+        this.currentTime = 0;
+        this.semaphore = new Semaphore(1); // Inicializar el semáforo con 1 permiso
+    }
 
     @Override
     public void reorder() {
-        
+        // El algoritmo Round Robin no necesita reorganizar la cola como HRRN
+        // Simplemente pasa los procesos al CPU cuando sea su turno
     }
 
-   @Override
-public void dispatch(CPU cpu) {
-    Queue<Process> readyQueue = cpu.getScheduler().getReadyQueue();  // Get the ready queue from Scheduler
-    System.out.println("Dispatching process...");  // Debug print
+    @Override
+    public void dispatch(CPU cpu) {
+        try {
+            // Intentamos adquirir el semáforo antes de proceder con la ejecución
+            semaphore.acquire();
 
-    if (!readyQueue.isEmpty()) {
-        Process currentProcess = readyQueue.dequeue();
-        System.out.println("Running process: " + currentProcess.getprocessName());  // Debug print
-        cpu.run(currentProcess);  // Run the process
-    }
-}
+            // Ejecutamos los procesos de la cola de listos
+            if (!readyQueue.isEmpty()) {
+                Process currentProcess = readyQueue.dequeue(); // Extraemos el proceso
 
-    public void executeRoundRobin(Queue<Process> queue) {
-        Queue<Process> readyQueue = new Queue<>();
-        int currentTime = 0;
+                // Mostramos información del proceso en ejecución
+                System.out.println("Dispatching: " + currentProcess.getprocessName() + " at time: " + currentTime);
 
-        // Move processes into the readyQueue
-        while (!queue.isEmpty()) {
-            readyQueue.enqueue(queue.dequeue());
-        }
+                // Simulamos el tiempo de ejecución del proceso según el quantum
+                int remainingBurstTime = currentProcess.getInstructionCount();
+                int executionTime = Math.min(quantum, remainingBurstTime); // Si el proceso no termina en este quantum, se ejecutará parcialmente
 
-        // Execute processes based on Round Robin scheduling
-        while (!readyQueue.isEmpty()) {
-            Process currentProcess = readyQueue.dequeue();
-            int remainingBurstTime = currentProcess.getInstructionCount();
-            System.out.println("Time: " + currentTime + " - Running process: " + currentProcess.getprocessName());
+                currentProcess.setInstructionCount(remainingBurstTime - executionTime); // Actualizamos el tiempo restante del proceso
 
-            if (remainingBurstTime > quantum) {
-                currentProcess.setInstructionCount(remainingBurstTime - quantum);  // Update remaining time
-                currentTime += quantum;
-                System.out.println("Time: " + currentTime + " - Process " + currentProcess.getprocessName() + " paused, time left: " + currentProcess.getInstructionCount());
-                readyQueue.enqueue(currentProcess);  // Reinsert process back into the queue
-            } else {
-                currentTime += remainingBurstTime;
-                System.out.println("Time: " + currentTime + " - Process " + currentProcess.getprocessName() + " completed");
+                currentTime += executionTime; // Aumentamos el tiempo actual en función del tiempo de ejecución
+
+                // Si el proceso no ha terminado, lo reincorporamos a la cola
+                if (currentProcess.getInstructionCount() > 0) {
+                    readyQueue.enqueue(currentProcess);
+                    System.out.println("Time: " + currentTime + " - Process " + currentProcess.getprocessName() + " paused, time left: " + currentProcess.getInstructionCount());
+                } else {
+                    System.out.println("Time: " + currentTime + " - Process " + currentProcess.getprocessName() + " completed");
+                }
+
+                // Simulamos que el CPU corre el proceso
+                cpu.run(currentProcess);
             }
-        }
 
-        System.out.println("All processes have been executed.");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            // Liberamos el semáforo para que otro proceso pueda acceder al CPU
+            semaphore.release();
+        }
     }
 }

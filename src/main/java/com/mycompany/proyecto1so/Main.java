@@ -164,7 +164,7 @@ if ("FCFS".equals(planningAlgorithm)) {
 algorithm = new FCFS(readyQueue);
 }
 if ("Round Robin".equals(planningAlgorithm)) {
-algorithm = new RoundRobin();
+algorithm = new RoundRobin(readyQueue,5);
 }
 if ("SPN".equals(planningAlgorithm)) {
     algorithm = new SPN(readyQueue);
@@ -176,7 +176,6 @@ if ("HRRN".equals(planningAlgorithm)) {
 algorithm = new HRRN(readyQueue);
 }
 
-Scheduler scheduler = new Scheduler(algorithm, readyQueue, []);
 
 String[] options = {"2 CPUs", "3 CPUs"};
 int choice = JOptionPane.showOptionDialog(
@@ -201,6 +200,7 @@ for (int i = 0; i < numberOfCPUs; i++) {
 cpus[i] = new CPU(i + 1, clockManager, readyQueue, blockedQueue, exitList);
 }
 
+Scheduler scheduler = new Scheduler(algorithm, readyQueue, cpus);
 
 
 java.awt.EventQueue.invokeLater(() -> {
