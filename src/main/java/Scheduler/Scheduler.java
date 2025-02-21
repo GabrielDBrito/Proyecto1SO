@@ -4,18 +4,16 @@ import CPU.CPU;
 import EDD.Queue;
 import Process.Process;
 
-/**
- *
- * @author Gabriel
- */
 public class Scheduler {
     private Queue<Process> readyQueue;
     private SchedulingAlgorithm algorithm;
+    private CPU[] cpus;  // Array of CPUs
 
-    // Constructor now accepts the SchedulingAlgorithm and readyQueue
-    public Scheduler(SchedulingAlgorithm algorithm, Queue<Process> readyQueue) {
+    // Constructor accepts the SchedulingAlgorithm, readyQueue, and CPUs array
+    public Scheduler(SchedulingAlgorithm algorithm, Queue<Process> readyQueue, CPU[] cpus) {
         this.algorithm = algorithm;
         this.readyQueue = readyQueue;
+        this.cpus = cpus;
     }
 
     // Expose the ready queue if needed
@@ -28,10 +26,11 @@ public class Scheduler {
         algorithm.reorder();  // Reorder based on the specific algorithm
     }
 
-    // Dispatch the process to the CPU for execution
-    public void dispatch(CPU cpu) {
-        reorder();  // Reorder the queue before dispatching
-        Process process = readyQueue.dequeue();  // Get the next process
-        cpu.run(process);  // Let the CPU execute the process
+    // Dispatch processes to each CPU
+    public void dispatch() {
+        for (CPU cpu : cpus) {
+            System.out.println("Dispatching processes to CPU: " + cpu.getID());
+            algorithm.dispatch(cpu);  // Pass each CPU to the dispatch method of the algorithm
+        }
     }
 }

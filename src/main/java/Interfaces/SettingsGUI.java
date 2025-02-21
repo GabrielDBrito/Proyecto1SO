@@ -4,6 +4,15 @@
  */
 package Interfaces;
 
+import CPU.CPU;
+import EDD.Queue;
+import Scheduler.FCFS;
+import Scheduler.HRRN;
+import Scheduler.RoundRobin;
+import Scheduler.SPN;
+import Scheduler.SRT;
+import Scheduler.Scheduler;
+import Scheduler.SchedulingAlgorithm;
 import Settings.Settings;
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,14 +28,17 @@ import javax.swing.JOptionPane;
 public class SettingsGUI extends javax.swing.JFrame {
     private static Settings settings;
     private static ExecutionWindow executionWindow;
-    
+    private static Queue readyQueue;
+    private static CPU[] cpus;
     /**
      * Creates new form SettingsGUI
      */
-    public SettingsGUI(Settings settings,ExecutionWindow executionWindow) {
+    public SettingsGUI(Settings settings,ExecutionWindow executionWindow, Queue readyQueue, CPU[] cpus) {
         initComponents();
         this.settings=settings;
         this.executionWindow=executionWindow;
+        this.readyQueue= readyQueue;
+        this.cpus=cpus;
         
         if (this.settings != null) {
         jLabel7.setText(String.valueOf(this.settings.getCPUs()));
@@ -76,7 +88,8 @@ public class SettingsGUI extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "\"FCFS\"", "\"Round Robin\"", "\"SPN\"", "\"SRT\"", "\"HRRN\"" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "FCFS", "Round Robin", "SPN", "SRT", "HRRN"
+        }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -112,7 +125,7 @@ public class SettingsGUI extends javax.swing.JFrame {
                                     .addComponent(jLabel5)
                                     .addComponent(jLabel6)))
                             .addComponent(jLabel7))
-                        .addContainerGap(192, Short.MAX_VALUE))))
+                        .addContainerGap(209, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(238, 238, 238)
                 .addComponent(jButton1)
@@ -153,7 +166,10 @@ public class SettingsGUI extends javax.swing.JFrame {
         // Aply button
         
         String ExecutionTime1=jTextField1.getText();    //executioncycle
-        String PlanningAlgorithm1 = (String) jComboBox1.getSelectedItem();
+       
+
+// Asegurándote de que el valor esté limpio y en minúsculas
+String PlanningAlgorithm1 = jComboBox1.getSelectedItem().toString().trim().toLowerCase();
         double executionTime; 
     
         try {
@@ -190,6 +206,37 @@ public class SettingsGUI extends javax.swing.JFrame {
             outputStream.close();
             
             JOptionPane.showMessageDialog(this, "Settings updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            SchedulingAlgorithm algorithm;
+            
+System.out.println("PlanningAlgorithm1 value (cleaned): [" + PlanningAlgorithm1 + "]");
+
+System.out.println("PlanningAlgorithm1 value (cleaned): [" + PlanningAlgorithm1 + "]");
+
+// Verificar si el valor es uno de los esperados
+if ("fcfs".equals(PlanningAlgorithm1)) {
+    algorithm = new FCFS(readyQueue);
+} else if ("hrrn".equals(PlanningAlgorithm1)) {
+    algorithm = new HRRN(readyQueue);
+} else if ("round robin".equals(PlanningAlgorithm1)) {
+    algorithm = new RoundRobin();
+} else if ("spn".equals(PlanningAlgorithm1)) {
+    algorithm = new SPN(readyQueue);
+} else if ("srt".equals(PlanningAlgorithm1)) {
+    algorithm = new SRT(readyQueue);
+} else {
+    // Si no coincide con ninguno, lanzar el error
+    System.out.println("Unknown algorithm: " + PlanningAlgorithm1);
+    throw new IllegalArgumentException("Unknown algorithm: " + PlanningAlgorithm1);
+}
+
+
+
+
+        Scheduler scheduler = new Scheduler(algorithm, readyQueue, cpus);
+        scheduler.reorder();  // Reorder the readyQueue
+        scheduler.dispatch();  // Dispatch process to CPU
+            
+            executionWindow.setVisible(true);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Error updating settings file.", "File Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -232,7 +279,7 @@ public class SettingsGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SettingsGUI(settings,executionWindow).setVisible(true);
+                new SettingsGUI(settings,executionWindow, readyQueue, cpus).setVisible(true);
             }
         });
     }

@@ -44,7 +44,7 @@ public class Menu extends javax.swing.JFrame {
         executionWindow.setVisible(false);
         this.createProcess=new CreateProcess(readyQueue, executionWindow, cpus);
         createProcess.setVisible(false);
-        this.settingsGUI=new SettingsGUI(settings, executionWindow);
+        this.settingsGUI=new SettingsGUI(settings, executionWindow, readyQueue, cpus);
         settingsGUI.setVisible(false);
         
         initComponents();

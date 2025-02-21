@@ -157,21 +157,26 @@ Queue<Process> readyQueue = new Queue<>();
 Queue<Process> blockedQueue = new Queue<>();
 ProcessList exitList = new ProcessList(); // culminated processes
 
-FCFS algorithm = null;
+SchedulingAlgorithm algorithm = null;
+
 //Scheduling Algorithm
 if ("FCFS".equals(planningAlgorithm)) {
 algorithm = new FCFS(readyQueue);
 }
 if ("Round Robin".equals(planningAlgorithm)) {
-
+algorithm = new RoundRobin();
 }
 if ("SPN".equals(planningAlgorithm)) {
+    algorithm = new SPN(readyQueue);
 }
 if ("SRT".equals(planningAlgorithm)) {
+    algorithm = new SRT(readyQueue);
 }
 if ("HRRN".equals(planningAlgorithm)) {
+algorithm = new HRRN(readyQueue);
 }
-Scheduler scheduler = new Scheduler(algorithm, readyQueue);
+
+Scheduler scheduler = new Scheduler(algorithm, readyQueue, []);
 
 String[] options = {"2 CPUs", "3 CPUs"};
 int choice = JOptionPane.showOptionDialog(
@@ -195,6 +200,7 @@ CPU[] cpus = new CPU[numberOfCPUs];
 for (int i = 0; i < numberOfCPUs; i++) {
 cpus[i] = new CPU(i + 1, clockManager, readyQueue, blockedQueue, exitList);
 }
+
 
 
 java.awt.EventQueue.invokeLater(() -> {
